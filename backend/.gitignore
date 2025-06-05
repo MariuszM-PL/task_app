@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# Flask instance & config
+instance/
+.env
+.env.*
+
+# SQLite
+*.sqlite3
+*.db
+
+# test / cache / logs
+.pytest_cache/
+*.log
+
+# editor settings
+.vscode/
+.idea/
+.DS_Store
