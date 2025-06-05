@@ -1,0 +1,35 @@
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: 5px;
+  color: white;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 220px;
+}
+
+.alert button {
+  margin-left: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+}
+
+.alert.success {
+  background-color: #28a745;
+}
+
+.alert.error {
+  background-color: #dc3545;
+}
+
+.alert.info {
+  background-color: #007bff;
+}

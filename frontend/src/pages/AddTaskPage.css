@@ -1,0 +1,10 @@
+.add-task-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 1rem;
+}
+.add-task-container input,
+.add-task-container textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+}
