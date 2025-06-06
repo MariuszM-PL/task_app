@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import './EditTaskPage.css';
 
 const EditTaskPage = () => {
   const { id } = useParams();
@@ -40,45 +41,51 @@ const EditTaskPage = () => {
     setTimeout(() => navigate('/dashboard'), 1500);
   };
 
-  if (loading) return <p>Ładowanie...</p>;
-  if (!task) return <p>Nie znaleziono zadania.</p>;
+  if (loading) return <p className="loading">Ładowanie...</p>;
+  if (!task) return <p className="error">Nie znaleziono zadania.</p>;
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Edytuj zadanie</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          placeholder="Tytuł"
-          value={task.title}
-          onChange={handleChange}
-          required
-        /><br />
-        <textarea
-          name="description"
-          placeholder="Opis"
-          value={task.description}
-          onChange={handleChange}
-        /><br />
-        <input
-          type="date"
-          name="due_date"
-          value={task.due_date || ''}
-          onChange={handleChange}
-        /><br />
-        <select
-          name="category"
-          value={task.category || ''}
-          onChange={handleChange}
-        >
-          <option value="">Wybierz kategorię</option>
-          <option value="Dom">Dom</option>
-          <option value="Praca">Praca</option>
-          <option value="Szkoła">Szkoła</option>
-        </select><br />
-        <button type="submit">Zapisz zmiany</button>
-      </form>
+    <div className="edit-task-container">
+      <div className="edit-task-panel">
+        <h2>Edytuj zadanie</h2>
+        <form onSubmit={handleSubmit} className="edit-task-form">
+          <input
+            type="text"
+            name="title"
+            placeholder="Tytuł"
+            value={task.title}
+            onChange={handleChange}
+            required
+          />
+          <textarea
+            name="description"
+            placeholder="Opis"
+            value={task.description}
+            onChange={handleChange}
+          />
+          <input
+            type="date"
+            name="due_date"
+            value={task.due_date || ''}
+            onChange={handleChange}
+          />
+          <select
+            name="category"
+            value={task.category || ''}
+            onChange={handleChange}
+          >
+            <option value="">Wybierz kategorię</option>
+            <option value="Dom">Dom</option>
+            <option value="Praca">Praca</option>
+            <option value="Szkoła">Szkoła</option>
+          </select>
+          <button type="submit">Zapisz zmiany</button>
+            <button type="button" className="cancel-button" onClick={() => navigate('/dashboard')}>
+              Anuluj
+            </button>
+
+        </form>
+      </div>
     </div>
   );
 };

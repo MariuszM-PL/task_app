@@ -31,7 +31,7 @@ const SettingsPage = () => {
     const data = await res.json();
 
     if (res.ok) {
-      toast.success('✅ Hasło zostało zmienione');
+      toast.success('Hasło zostało zmienione');
       setCurrentPassword('');
       setNewPassword('');
     } else {
@@ -41,30 +41,32 @@ const SettingsPage = () => {
 
   return (
     <div className="settings-container">
-      <h2>⚙️ Ustawienia konta</h2>
-      <p><strong>Zalogowany jako:</strong> {username}</p>
+      <div className="settings-box">
+        <h2>⚙️ Ustawienia konta</h2>
+        <p><strong>Zalogowany jako:</strong> {username}</p>
 
-      <form onSubmit={handlePasswordChange} className="settings-form">
-        <input
-          type="password"
-          placeholder="Obecne hasło"
-          value={currentPassword}
-          onChange={e => setCurrentPassword(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Nowe hasło"
-          value={newPassword}
-          onChange={e => setNewPassword(e.target.value)}
-          required
-        />
-        <button type="submit">💾 Zmień hasło</button>
-      </form>
+        <form onSubmit={handlePasswordChange} className="settings-form">
+          <input
+            type="password"
+            placeholder="Obecne hasło"
+            value={currentPassword}
+            onChange={e => setCurrentPassword(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Nowe hasło"
+            value={newPassword}
+            onChange={e => setNewPassword(e.target.value)}
+            required
+          />
+          <button type="submit">💾 Zmień hasło</button>
+        </form>
 
-      <button className="back-button" onClick={() => navigate('/dashboard')}>
-        ↩️ Powrót do zadań
-      </button>
+        <button className="back-button" onClick={() => navigate('/dashboard')}>
+          ↩️ Powrót do zadań
+        </button>
+      </div>
     </div>
   );
 };

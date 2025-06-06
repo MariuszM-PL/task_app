@@ -4,6 +4,9 @@ import { FaTrashAlt, FaEdit, FaCheck, FaUndo } from 'react-icons/fa';
 import './DashboardPage.css';
 import { toast } from 'react-toastify';
 import TaskCalendar from '../components/TaskCalendar';
+import { FaCog } from 'react-icons/fa'; // dopisz do importów u góry
+import { IoIosAddCircle } from "react-icons/io";
+import { IoMdLogOut } from "react-icons/io";
 
 const DashboardPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -91,30 +94,39 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard">
-      <h2>Witaj, {username}!</h2>
-
-      <div className="top-buttons">
-        <button onClick={() => navigate('/add-task')}>➕ Dodaj zadanie</button>
-        <button onClick={logout}>Wyloguj</button>
+      <div className="dashboard-header">
+        <div className="header-buttons">
+          <button className="settings-button" onClick={() => navigate('/settings')}>
+            <FaCog /> Ustawienia
+          </button>
+          <button className="logout-button" onClick={logout}><IoMdLogOut /> Wyloguj</button>
+        </div>
       </div>
 
-      <div className="filters">
-        <label>Filtruj:</label>
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="all">Wszystkie</option>
-          <option value="incomplete">Nieukończone</option>
-          <option value="completed">Ukończone</option>
-        </select>
+      <div className="content-wrapper">
+        <div className="main-panel">
+          <h2>
+            Witaj, {username}! 
+          </h2>
+          <div className="top-buttons">
+            <button onClick={() => navigate('/add-task')}><IoIosAddCircle /> Dodaj zadanie</button>
+          </div>
 
-        <label>Sortuj:</label>
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
-          <option value="date">Według terminu</option>
-          <option value="category">Według kategorii</option>
-        </select>
-      </div>
+          <div className="filters">
+            <label>Filtruj:</label>
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <option value="all">Wszystkie</option>
+              <option value="incomplete">Nieukończone</option>
+              <option value="completed">Ukończone</option>
+            </select>
 
-      <div className="dashboard-content">
-        <div className="task-list-column">
+            <label>Sortuj:</label>
+            <select value={sort} onChange={(e) => setSort(e.target.value)}>
+              <option value="date">Według terminu</option>
+              <option value="category">Według kategorii</option>
+            </select>
+          </div>
+
           <h3>Twoje zadania:</h3>
           {sortedTasks.length === 0 ? (
             <p>Brak zadań</p>
@@ -122,56 +134,55 @@ const DashboardPage = () => {
             <ul className="task-list">
               {sortedTasks.map((task) => (
                 <li key={task.id} className={task.done ? 'done' : ''}>
-        <div className="task-header">
-            <span className="task-title">{task.title}</span>
-            <input
-            type="checkbox"
-            className="task-checkbox"
-            checked={selectedTask === task.id}
-            onChange={() =>
-                setSelectedTask(selectedTask === task.id ? null : task.id)
-            }
-            />
-        </div>
-        {task.description && (
-            <div className="task-description">– {task.description}</div>
-        )}
-        <div className="task-meta">
-            <small>
-            {task.due_date ? `Termin: ${task.due_date}` : '(brak terminu)'}
-            </small>
-            {task.category && <small> • Kategoria: {task.category}</small>}
-        </div>
+                  <div className="task-header">
+                    <span className="task-title">{task.title}</span>
+                    <input
+                      type="checkbox"
+                      className="task-checkbox"
+                      checked={selectedTask === task.id}
+                      onChange={() =>
+                        setSelectedTask(selectedTask === task.id ? null : task.id)
+                      }
+                    />
+                  </div>
+                  {task.description && (
+                    <div className="task-description">– {task.description}</div>
+                  )}
+                  <div className="task-meta">
+                    <small>
+                      {task.due_date ? `Termin: ${task.due_date}` : '(brak terminu)'}
+                    </small>
+                    {task.category && <small> • Kategoria: {task.category}</small>}
+                  </div>
 
-        {selectedTask === task.id && (
-            <div className="task-actions">
-            {task.done ? (
-                <FaUndo
-                title="Oznacz jako nieukończone"
-                className="icon blue"
-                onClick={() => handleToggle(task)}
-                />
-            ) : (
-                <FaCheck
-                title="Oznacz jako ukończone"
-                className="icon green"
-                onClick={() => handleToggle(task)}
-                />
-            )}
-            <FaEdit
-                title="Edytuj"
-                className="icon blue"
-                onClick={() => navigate(`/edit-task/${task.id}`)}
-            />
-            <FaTrashAlt
-                title="Usuń"
-                className="icon red"
-                onClick={() => handleDelete(task.id)}
-            />
-            </div>
-        )}
-        </li>
-
+                  {selectedTask === task.id && (
+                    <div className="task-actions">
+                      {task.done ? (
+                        <FaUndo
+                          title="Oznacz jako nieukończone"
+                          className="icon blue"
+                          onClick={() => handleToggle(task)}
+                        />
+                      ) : (
+                        <FaCheck
+                          title="Oznacz jako ukończone"
+                          className="icon green"
+                          onClick={() => handleToggle(task)}
+                        />
+                      )}
+                      <FaEdit
+                        title="Edytuj"
+                        className="icon blue"
+                        onClick={() => navigate(`/edit-task/${task.id}`)}
+                      />
+                      <FaTrashAlt
+                        title="Usuń"
+                        className="icon red"
+                        onClick={() => handleDelete(task.id)}
+                      />
+                    </div>
+                  )}
+                </li>
               ))}
             </ul>
           )}

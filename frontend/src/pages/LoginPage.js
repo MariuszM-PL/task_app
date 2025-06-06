@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaLock } from 'react-icons/fa';
 import './LoginPage.css';
 import { toast } from 'react-toastify';
 
@@ -32,12 +33,28 @@ const LoginPage = () => {
     }
   };
 
+  const handleRipple = (e) => {
+    const button = e.currentTarget;
+    const ripple = document.createElement("span");
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(button.offsetWidth, button.offsetHeight);
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+    ripple.className = "ripple";
+    button.appendChild(ripple);
+  
+    setTimeout(() => ripple.remove(), 600); // usuń po animacji
+  };
+  
   return (
     <div className="login-container">
       <div className="login-box">
         <h2>Logowanie</h2>
         {message && <p className="error">{message}</p>}
         <form onSubmit={handleSubmit}>
+        <div className="input-wrapper">
+          <FaUser className="input-icon" />
           <input
             type="text"
             name="username"
@@ -46,6 +63,10 @@ const LoginPage = () => {
             onChange={handleChange}
             required
           />
+        </div>
+
+        <div className="input-wrapper">
+          <FaLock className="input-icon" />
           <input
             type="password"
             name="password"
@@ -54,8 +75,12 @@ const LoginPage = () => {
             onChange={handleChange}
             required
           />
-          <button type="submit">Zaloguj się</button>
-        </form>
+        </div>
+
+        <button type="submit" className="ripple-button" onClick={handleRipple}>
+          Zaloguj się
+        </button>
+      </form>
         <p>
           Nie masz konta?{' '}
           <span className="link" onClick={() => navigate('/register')}>

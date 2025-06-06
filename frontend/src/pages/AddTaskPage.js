@@ -21,8 +21,8 @@ const AddTaskPage = () => {
         title,
         description,
         due_date: dueDate,
-        category
-      })
+        category,
+      }),
     });
 
     if (response.ok) {
@@ -34,33 +34,39 @@ const AddTaskPage = () => {
   };
 
   return (
-    <div className="add-task-page">
-      <h2>Dodaj zadanie</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Tytuł"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        /><br />
-        <textarea
-          placeholder="Opis"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        /><br />
-        <input
-          type="date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-        /><br />
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="Dom">Dom</option>
-          <option value="Praca">Praca</option>
-          <option value="Szkoła">Szkoła</option>
-        </select><br />
-        <button type="submit">Dodaj</button>
-      </form>
+    <div className="add-task-container">
+      <div className="add-task-panel">
+        <h2>Dodaj zadanie</h2>
+        <form onSubmit={handleSubmit} className="add-task-form">
+          <input
+            type="text"
+            placeholder="Tytuł"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          <textarea
+            placeholder="Opis"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="Dom">Dom</option>
+            <option value="Praca">Praca</option>
+            <option value="Szkoła">Szkoła</option>
+          </select>
+          <button type="submit">Dodaj</button>
+          <button type="button" className="cancel-button" onClick={() => navigate('/dashboard')}>
+            Anuluj
+          </button>
+
+        </form>
+      </div>
     </div>
   );
 };

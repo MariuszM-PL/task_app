@@ -1,57 +1,122 @@
 .dashboard {
-  padding: 2rem;
-  background-color: #a1def2;
-  min-height: 100vh;
+  min-height: auto;
+  background: linear-gradient(to right, #4facfe, #a1def2);
   font-family: 'Segoe UI', sans-serif;
   color: #333;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-h2 {
-  margin-bottom: 1rem;
-  text-align: center;
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header img {
+  height: 40px;
+}
+
+.logout-button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logout-button:hover {
+  background-color: #d9322c;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.settings-button {
+  background-color: #e58b4b;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.settings-button:hover {
+  background-color: #e27527;
+}
+
+
+.content-wrapper {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.main-panel {
+  flex: 2;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  max-height: 85vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.main-panel h2 {
+  margin-bottom: 1.5rem;
+  color: #000000;
+}
+
+.main-panel h3 {
+  color: #4facfe;
+  margin-bottom: 1.5rem;
 }
 
 .top-buttons {
   display: flex;
-  justify-content: flex-start; /* wyrównanie do lewej */
   gap: 1rem;
-  margin: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
-
-.top-buttons button:first-child {
-  background-color: #4caf50;
-  color: white;
+.top-buttons button {
   font-size: 1rem;
   padding: 10px 18px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-buttons button:first-child {
+  background-color: #4caf50;
+  color: white;
 }
 
 .top-buttons button:first-child:hover {
   background-color: #45a045;
 }
 
-.top-buttons button:last-child {
-  background-color: #f44336;
-  color: white;
-  font-size: 1rem;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.top-buttons button:last-child:hover {
-  background-color: #d9322c;
-}
-
 .filters {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
@@ -60,27 +125,13 @@ h2 {
 
 .filters label {
   font-weight: bold;
+  color: #4facfe;
 }
 
 .filters select {
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
   border: 1px solid #ccc;
-}
-
-.dashboard-content {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-}
-
-/* Lewa kolumna z zadaniami */
-.task-list-column {
-  flex: 2;
-}
-
-.task-list-column h3 {
-  margin-bottom: 1rem;
 }
 
 .task-list {
@@ -117,6 +168,7 @@ h2 {
 .task-title {
   font-weight: bold;
   font-size: 1.1rem;
+  color: #4facfe;
 }
 
 .task-description {
@@ -154,7 +206,6 @@ h2 {
   color: #007BFF;
 }
 
-/* Styl checkboxa */
 .task-checkbox {
   position: absolute;
   right: 1rem;
@@ -163,23 +214,23 @@ h2 {
   cursor: pointer;
 }
 
-/* Prawa kolumna */
+/* Kalendarz */
 .calendar-column {
   flex: 1;
   max-width: 400px;
   background-color: #fff;
   padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .calendar-column h3 {
+  text-align: center;
   margin-top: 0;
   margin-bottom: 1rem;
-  text-align: center;
+  color: #4facfe;
 }
 
-/* Legenda */
 .legend {
   margin-top: 1rem;
 }
@@ -212,7 +263,7 @@ h2 {
 }
 
 @media (max-width: 900px) {
-  .dashboard-content {
+  .content-wrapper {
     flex-direction: column;
   }
 
@@ -220,3 +271,4 @@ h2 {
     width: 100%;
   }
 }
+
