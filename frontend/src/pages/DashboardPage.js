@@ -76,11 +76,18 @@ const DashboardPage = () => {
     toast.error('Zadanie zostało usunięte');
   };
 
-  const filteredTasks = tasks.filter((task) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredTasks = tasks
+  .filter((task) => {
     if (filter === 'completed') return task.done;
     if (filter === 'incomplete') return !task.done;
     return true;
-  });
+  })
+  .filter((task) =>
+    task.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
     if (sort === 'date') {
@@ -100,6 +107,9 @@ const DashboardPage = () => {
       default: return '';
     }
   };
+
+  
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
@@ -133,6 +143,15 @@ const DashboardPage = () => {
               <option value="date">Według terminu</option>
               <option value="category">Według kategorii</option>
             </select>
+
+            <label>Szukaj:</label>
+            <input
+              type="text"
+              placeholder="Wpisz tytuł zadania"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+
           </div>
 
           <h3>Twoje zadania:</h3>
