@@ -1,3 +1,4 @@
+/* === GŁÓWNY KONTENER STRONY REJESTRACJI === */
 .register-container {
   position: relative;
   width: 100vw;
@@ -10,45 +11,44 @@
   overflow: hidden;
 }
 
-.register-container::before {
+/* === DEKORACYJNE OKRĘGI TŁA === */
+.register-container::before,
+.register-container::after {
   content: '';
   position: absolute;
+  border-radius: 50%;
+  background: white;
+  z-index: 0;
+}
+
+.register-container::before {
   top: -100px;
   right: -100px;
   width: 300px;
   height: 300px;
-  background: white;
-  border-radius: 50%;
   opacity: 0.4;
-  z-index: 0;
 }
 
 .register-container::after {
-  content: '';
-  position: absolute;
   bottom: -120px;
   left: -120px;
   width: 350px;
   height: 350px;
-  background: white;
-  border-radius: 50%;
   opacity: 0.25;
-  z-index: 0;
 }
 
+/* === BOX REJESTRACJI === */
 .register-box {
   position: relative;
   z-index: 1;
-  background-color: white !important;
+  background-color: white;
   padding: 2.5rem;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   width: 90%;
-  height: 65%;
   max-width: 400px;
   text-align: center;
 }
-
 
 .register-box h2 {
   margin-bottom: 1.5rem;
@@ -56,14 +56,15 @@
   color: #5a6364;
 }
 
+/* === POLA FORMULARZA === */
 .register-box input {
   width: 100%;
-  margin-bottom: 1rem;
   padding: 12px;
-  border: none;
-  border-bottom: 2px solid #ccc;
+  margin-bottom: 1rem;
   font-size: 1rem;
   background: transparent;
+  border: none;
+  border-bottom: 2px solid #ccc;
   outline: none;
 }
 
@@ -71,6 +72,7 @@
   color: #aaa;
 }
 
+/* === PRZYCISK REJESTRACJI === */
 .register-box button {
   width: 100%;
   padding: 12px;
@@ -88,6 +90,7 @@
   opacity: 0.95;
 }
 
+/* === BŁĘDY / LINKI === */
 .register-box .error {
   color: red;
   margin-bottom: 10px;
@@ -102,10 +105,11 @@
   display: block;
   font-size: 0.9rem;
   color: #007bff;
-  cursor: pointer;
   text-decoration: underline;
+  cursor: pointer;
 }
 
+/* === INPUT Z IKONĄ === */
 .input-wrapper {
   position: relative;
   display: flex;
@@ -126,12 +130,13 @@
 .input-icon {
   position: absolute;
   left: 10px;
-  top: 35%;
+  top: 50%;
   transform: translateY(-50%);
   color: #aaa;
   font-size: 1rem;
 }
 
+/* === EFEKT RIPPLE === */
 .ripple-button {
   position: relative;
   overflow: hidden;
@@ -151,5 +156,20 @@
   to {
     transform: scale(4);
     opacity: 0;
+  }
+}
+
+/* === RESPONSYWNOŚĆ (opcjonalna, możesz rozszerzyć przy potrzebie) === */
+@media (max-height: 700px) {
+  .register-box {
+    padding: 1.5rem;
+  }
+
+  .register-box h2 {
+    font-size: 1.5rem;
+  }
+
+  .register-box button {
+    margin: 24px 0;
   }
 }

@@ -6,6 +6,7 @@
   justify-content: center;
   padding: 2rem;
   box-sizing: border-box;
+  position: relative;
 }
 
 .add-task-container::before {
@@ -41,6 +42,8 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
+  position: relative;
+  z-index: 1;
 }
 
 .add-task-panel h2 {
@@ -94,8 +97,24 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 100%;
 }
 
 .add-task-form .cancel-button:hover {
   background: #5a6268;
+}
+
+@media (max-width: 600px) {
+  .add-task-container {
+    padding: 1rem;
+  }
+
+  .add-task-panel {
+    padding: 1.2rem;
+  }
+
+  .add-task-form button,
+  .add-task-form .cancel-button {
+    font-size: 0.95rem;
+  }
 }
