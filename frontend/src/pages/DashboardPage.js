@@ -92,6 +92,14 @@ const DashboardPage = () => {
     return 0;
   });
 
+  const getCategoryClass = (category) => {
+    switch (category) {
+      case 'Dom': return 'dom';
+      case 'Praca': return 'praca';
+      case 'Szkoła': return 'szkola'; // <== bez "ł"
+      default: return '';
+    }
+  };
   return (
     <div className="dashboard">
       <div className="dashboard-header">
@@ -135,7 +143,10 @@ const DashboardPage = () => {
               {sortedTasks.map((task) => (
                 <li key={task.id} className={task.done ? 'done' : ''}>
                   <div className="task-header">
-                    <span className="task-title">{task.title}</span>
+                    <div className="task-title-with-dot">
+                      <span className={`dot ${getCategoryClass(task.category)}`}></span>
+                      <span className="task-title">{task.title}</span>
+                    </div>
                     <input
                       type="checkbox"
                       className="task-checkbox"
@@ -145,6 +156,7 @@ const DashboardPage = () => {
                       }
                     />
                   </div>
+
                   {task.description && (
                     <div className="task-description">– {task.description}</div>
                   )}

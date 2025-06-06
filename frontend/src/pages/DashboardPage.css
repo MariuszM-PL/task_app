@@ -214,6 +214,31 @@
   cursor: pointer;
 }
 
+.task-title-with-dot {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-title-with-dot .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.task-title-with-dot .dom {
+  background-color: blue;
+}
+
+.task-title-with-dot .praca {
+  background-color: red;
+}
+
+.task-title-with-dot .szkola {
+  background-color: green;
+}
+
+
 /* Kalendarz */
 .calendar-column {
   flex: 1;
