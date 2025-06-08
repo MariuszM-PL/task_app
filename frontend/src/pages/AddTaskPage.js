@@ -4,15 +4,18 @@ import './AddTaskPage.css';
 import { toast } from 'react-toastify';
 
 const AddTaskPage = () => {
+  // Stany dla każdego pola formularza
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [category, setCategory] = useState('Dom');
+  const [category, setCategory] = useState('Dom'); // domyślna kategoria
   const navigate = useNavigate();
 
+  // Obsługa wysłania formularza
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Wysłanie zadania do backendu
     const response = await fetch('http://localhost:5000/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -25,6 +28,7 @@ const AddTaskPage = () => {
       }),
     });
 
+    // Powiadomienie o wyniku
     if (response.ok) {
       toast.info('Dodano nowe zadanie', { autoClose: 2000 });
       navigate('/dashboard');
@@ -60,11 +64,11 @@ const AddTaskPage = () => {
             <option value="Praca">Praca</option>
             <option value="Szkoła">Szkoła</option>
           </select>
+
           <button type="submit">Dodaj</button>
           <button type="button" className="cancel-button" onClick={() => navigate('/dashboard')}>
             Anuluj
           </button>
-
         </form>
       </div>
     </div>

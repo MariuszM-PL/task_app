@@ -1,3 +1,4 @@
+/* === GŁÓWNE TŁO STRONY === */
 .edit-task-container {
   min-height: 100vh;
   background: linear-gradient(to right, #4facfe, #a1def2);
@@ -9,6 +10,7 @@
   position: relative;
 }
 
+/* Dekoracyjne koła w tle */
 .edit-task-container::before {
   content: '';
   position: absolute;
@@ -35,6 +37,7 @@
   z-index: 0;
 }
 
+/* === PANEL EDYCJI === */
 .edit-task-panel {
   background-color: white;
   padding: 2rem;
@@ -52,6 +55,7 @@
   color: #4facfe;
 }
 
+/* === FORMULARZ EDYCJI === */
 .edit-task-form {
   display: flex;
   flex-direction: column;
@@ -74,6 +78,7 @@
   min-height: 100px;
 }
 
+/* === PRZYCISKI === */
 .edit-task-form button {
   background-color: #4caf50;
   color: white;
@@ -89,6 +94,7 @@
   background-color: #45a045;
 }
 
+/* Przycisk Anuluj */
 .edit-task-form .cancel-button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
@@ -104,6 +110,7 @@
   background: #5a6268;
 }
 
+/* === STANY INFORMACYJNE === */
 .loading,
 .error {
   text-align: center;
@@ -111,6 +118,7 @@
   font-size: 1.2rem;
 }
 
+/* === RESPONSYWNOŚĆ MOBILNA === */
 @media (max-width: 600px) {
   .edit-task-container {
     padding: 1rem;

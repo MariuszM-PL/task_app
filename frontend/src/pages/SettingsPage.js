@@ -4,20 +4,22 @@ import { toast } from 'react-toastify';
 import './SettingsPage.css';
 
 const SettingsPage = () => {
-  const [username, setUsername] = useState('');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [username, setUsername] = useState(''); // nazwa użytkownika
+  const [currentPassword, setCurrentPassword] = useState(''); // pole: obecne hasło
+  const [newPassword, setNewPassword] = useState(''); // pole: nowe hasło
   const navigate = useNavigate();
 
+  // Pobranie danych użytkownika po załadowaniu komponentu
   useEffect(() => {
     fetch('http://localhost:5000/api/user', {
       credentials: 'include'
     })
       .then(res => res.json())
-      .then(data => setUsername(data.username))
-      .catch(() => navigate('/'));
+      .then(data => setUsername(data.username)) // ustawiamy nazwę użytkownika
+      .catch(() => navigate('/')); // przekieruj na login przy błędzie
   }, [navigate]);
 
+  // Obsługa zmiany hasła
   const handlePasswordChange = async (e) => {
     e.preventDefault();
 

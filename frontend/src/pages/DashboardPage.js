@@ -4,18 +4,19 @@ import { FaTrashAlt, FaEdit, FaCheck, FaUndo } from 'react-icons/fa';
 import './DashboardPage.css';
 import { toast } from 'react-toastify';
 import TaskCalendar from '../components/TaskCalendar';
-import { FaCog } from 'react-icons/fa'; // dopisz do importów u góry
+import { FaCog } from 'react-icons/fa'; // ikona do przycisku ustawień
 import { IoIosAddCircle } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
 
 const DashboardPage = () => {
-  const [tasks, setTasks] = useState([]);
-  const [username, setUsername] = useState('');
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [filter, setFilter] = useState('all');
-  const [sort, setSort] = useState('date');
+  const [tasks, setTasks] = useState([]); // lista zadań
+  const [username, setUsername] = useState(''); // nazwa zalogowanego użytkownika
+  const [selectedTask, setSelectedTask] = useState(null); // aktualnie zaznaczone zadanie
+  const [filter, setFilter] = useState('all'); // filtr (wszystkie, ukończone, nieukończone)
+  const [sort, setSort] = useState('date'); // sortowanie (data lub kategoria)
   const navigate = useNavigate();
 
+  // Po załadowaniu komponentu, sprawdzamy czy użytkownik jest zalogowany
   useEffect(() => {
     fetch('http://localhost:5000/api/user', {
       credentials: 'include',
@@ -26,13 +27,14 @@ const DashboardPage = () => {
       })
       .then((data) => {
         setUsername(data.username);
-        loadTasks();
+        loadTasks(); // pobranie zadań po udanym logowaniu
       })
       .catch(() => {
-        navigate('/');
+        navigate('/'); // jeśli nie jesteśmy zalogowani, wracamy na stronę główną
       });
   }, [navigate]);
 
+  // Funkcja pobierająca zadania użytkownika
   const loadTasks = () => {
     fetch('http://localhost:5000/api/tasks', {
       credentials: 'include',
@@ -41,6 +43,7 @@ const DashboardPage = () => {
       .then((data) => setTasks(data));
   };
 
+  // Wylogowanie – czyści sesję i przenosi na Home
   const logout = async () => {
     await fetch('http://localhost:5000/api/logout', {
       credentials: 'include',
@@ -48,6 +51,7 @@ const DashboardPage = () => {
     navigate('/');
   };
 
+  // Zmiana statusu ukończenia zadania
   const handleToggle = async (task) => {
     const updatedTask = { ...task, done: !task.done };
 
@@ -64,9 +68,10 @@ const DashboardPage = () => {
       toast.info('Zadanie oznaczone jako nieukończone');
     }
 
-    loadTasks();
+    loadTasks(); // odświeżenie listy
   };
 
+  // Usuwanie zadania
   const handleDelete = async (taskId) => {
     await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
       method: 'DELETE',
@@ -78,17 +83,18 @@ const DashboardPage = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Filtrowanie zadań wg statusu i wyszukiwania
   const filteredTasks = tasks
-  .filter((task) => {
-    if (filter === 'completed') return task.done;
-    if (filter === 'incomplete') return !task.done;
-    return true;
-  })
-  .filter((task) =>
-    task.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    .filter((task) => {
+      if (filter === 'completed') return task.done;
+      if (filter === 'incomplete') return !task.done;
+      return true;
+    })
+    .filter((task) =>
+      task.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-
+  // Sortowanie zadań
   const sortedTasks = [...filteredTasks].sort((a, b) => {
     if (sort === 'date') {
       return new Date(a.due_date || Infinity) - new Date(b.due_date || Infinity);
@@ -99,19 +105,19 @@ const DashboardPage = () => {
     return 0;
   });
 
+  // Klasa CSS zależna od kategorii zadania
   const getCategoryClass = (category) => {
     switch (category) {
       case 'Dom': return 'dom';
       case 'Praca': return 'praca';
-      case 'Szkoła': return 'szkola'; // <== bez "ł"
+      case 'Szkoła': return 'szkola'; // poprawna kategoria
       default: return '';
     }
   };
 
-  
-
   return (
     <div className="dashboard">
+      {/* Nagłówek strony */}
       <div className="dashboard-header">
         <div className="header-buttons">
           <button className="settings-button" onClick={() => navigate('/settings')}>
@@ -123,13 +129,15 @@ const DashboardPage = () => {
 
       <div className="content-wrapper">
         <div className="main-panel">
-          <h2>
-            Witaj, {username}! 
-          </h2>
+          <h2>Witaj, {username}!</h2>
+
           <div className="top-buttons">
-            <button onClick={() => navigate('/add-task')}><IoIosAddCircle /> Dodaj zadanie</button>
+            <button onClick={() => navigate('/add-task')}>
+              <IoIosAddCircle /> Dodaj zadanie
+            </button>
           </div>
 
+          {/* Filtry i sortowanie */}
           <div className="filters">
             <label>Filtruj:</label>
             <select value={filter} onChange={(e) => setFilter(e.target.value)}>
@@ -151,9 +159,9 @@ const DashboardPage = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-
           </div>
 
+          {/* Lista zadań */}
           <h3>Twoje zadania:</h3>
           {sortedTasks.length === 0 ? (
             <p>Brak zadań</p>
@@ -219,10 +227,10 @@ const DashboardPage = () => {
           )}
         </div>
 
+        {/* Kolumna z kalendarzem i legendą */}
         <div className="calendar-column">
           <h3>Kalendarz zadań</h3>
           <TaskCalendar tasks={tasks} />
-
           <div className="legend">
             <p><span className="dot dom"></span> Dom</p>
             <p><span className="dot praca"></span> Praca</p>

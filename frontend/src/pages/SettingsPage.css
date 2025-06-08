@@ -1,3 +1,4 @@
+/* === GŁÓWNE TŁO STRONY === */
 .settings-container {
   min-height: 100vh;
   background: linear-gradient(to right, #4facfe, #a1def2);
@@ -11,6 +12,7 @@
   box-sizing: border-box;
 }
 
+/* === PANELE === */
 .settings-box {
   background-color: white;
   padding: 2rem;
@@ -31,6 +33,7 @@
   text-align: center;
 }
 
+/* === FORMULARZ ZMIANY HASŁA === */
 .settings-form {
   display: flex;
   flex-direction: column;
@@ -44,6 +47,7 @@
   font-size: 1rem;
 }
 
+/* === PRZYCISK ZMIANY HASŁA === */
 .settings-form button {
   padding: 0.6rem;
   background-color: #4caf50;
@@ -59,6 +63,7 @@
   background-color: #45a045;
 }
 
+/* === PRZYCISK POWROTU === */
 .back-button {
   margin-top: 1.5rem;
   padding: 0.5rem 1rem;
@@ -74,6 +79,7 @@
   background: #5a6268;
 }
 
+/* === RESPONSYWNOŚĆ === */
 @media (max-width: 600px) {
   .settings-container {
     padding: 1rem;

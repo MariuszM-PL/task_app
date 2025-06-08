@@ -2,17 +2,20 @@
   text-align: center;
 }
 
+/* === LOGO (jeśli używane) === */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
+/* === ANIMACJA LOGO (opcja) === */
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
+/* === DOMYŚLNY HEADER (może być usunięty jeśli nieużywany) === */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,10 +27,12 @@
   color: white;
 }
 
+/* === LINKI REACTOWE === */
 .App-link {
   color: #61dafb;
 }
 
+/* === DEFINICJA ANIMACJI === */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

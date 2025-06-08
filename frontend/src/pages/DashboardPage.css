@@ -1,8 +1,8 @@
 /* === GŁÓWNY KONTEKST APLIKACJI === */
 .dashboard {
-  min-height: 100vh;
-  background: linear-gradient(to right, #4facfe, #a1def2);
-  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh; /* Wysokość całego widoku */
+  background: linear-gradient(to right, #4facfe, #a1def2); /* Gradient tła */
+  font-family: 'Segoe UI', sans-serif; /* Czytelna czcionka */
   color: #333;
   padding: 2rem;
   box-sizing: border-box;
@@ -16,10 +16,12 @@
   margin-bottom: 2rem;
 }
 
+/* Logo (jeśli by było dodane) */
 .dashboard-header img {
   height: 40px;
 }
 
+/* Przycisk ustawień + wylogowania */
 .header-buttons {
   display: flex;
   gap: 1rem;
@@ -39,7 +41,7 @@
 }
 
 .logout-button {
-  background-color: #f44336;
+  background-color: #f44336; /* Czerwony przycisk wyloguj */
   color: white;
 }
 
@@ -48,7 +50,7 @@
 }
 
 .settings-button {
-  background-color: #e58b4b;
+  background-color: #e58b4b; /* Pomarańczowy przycisk ustawienia */
   color: white;
 }
 
@@ -60,7 +62,7 @@
 .content-wrapper {
   display: flex;
   gap: 2rem;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Układ responsywny */
 }
 
 /* === PANEL GŁÓWNY === */
@@ -71,10 +73,11 @@
   border-radius: 16px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   max-height: 85vh;
-  overflow-y: auto;
+  overflow-y: auto; /* Przewijanie jeśli za dużo zadań */
   overflow-x: hidden;
 }
 
+/* Nagłówki w panelu głównym */
 .main-panel h2 {
   margin-bottom: 1.5rem;
   color: #000;
@@ -105,6 +108,7 @@
   transition: background-color 0.3s ease;
 }
 
+/* Przycisk "Dodaj zadanie" */
 .top-buttons button:first-child {
   background-color: #4caf50;
   color: white;
@@ -154,6 +158,7 @@
   position: relative;
 }
 
+/* Zadanie ukończone – styl przekreślony i szary */
 .task-list li.done .task-title,
 .task-list li.done em,
 .task-list li.done .task-meta {
@@ -167,24 +172,28 @@
   align-items: center;
 }
 
+/* Tytuł zadania */
 .task-title {
   font-weight: bold;
   font-size: 1.1rem;
   color: #4facfe;
 }
 
+/* Opis zadania */
 .task-description {
   margin-top: 4px;
   font-style: italic;
   font-size: 0.95rem;
 }
 
+/* Meta dane – termin, kategoria */
 .task-meta {
   margin-top: 6px;
   font-size: 0.85rem;
   color: #555;
 }
 
+/* Ikony akcji: edytuj, usuń itd. */
 .task-actions {
   margin-top: 0.5rem;
   display: flex;
@@ -208,6 +217,7 @@
   color: #007BFF;
 }
 
+/* Checkbox do zaznaczenia zadania */
 .task-checkbox {
   position: absolute;
   right: 1rem;
@@ -258,6 +268,7 @@
   color: #4facfe;
 }
 
+/* Legenda kolorów kategorii */
 .legend {
   margin-top: 1rem;
 }

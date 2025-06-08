@@ -3,20 +3,24 @@ from flask_cors import CORS
 import sqlite3
 import bcrypt
 
+# Tworzymy instancję aplikacji Flask
 app = Flask(__name__)
-app.secret_key = 'tajny_klucz'
-CORS(app, supports_credentials=True)
+app.secret_key = 'tajny_klucz'  # Klucz do obsługi sesji
+CORS(app, supports_credentials=True)  # Umożliwiamy komunikację z frontendem
 
-# --------------------
-# Inicjalizacja bazy
-# --------------------
+# ========================================
+# INICJALIZACJA BAZY DANYCH
+# ========================================
 def init_db():
+    # Tworzymy połączenie z lokalną bazą SQLite
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
 
+    # Usuwamy tabele, jeśli już istnieją (resetowanie)
     c.execute('DROP TABLE IF EXISTS tasks')
     c.execute('DROP TABLE IF EXISTS users')
 
+    # Tworzymy tabelę użytkowników
     c.execute('''
         CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,6 +29,7 @@ def init_db():
         )
     ''')
 
+    # Tworzymy tabelę zadań powiązaną z użytkownikami
     c.execute('''
         CREATE TABLE tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,11 +47,13 @@ def init_db():
     conn.commit()
     conn.close()
 
-# --------------------
-# Endpointy użytkownika
-# --------------------
+# ========================================
+# ENDPOINTY DOTYCZĄCE UŻYTKOWNIKA
+# ========================================
+
 @app.route('/api/register', methods=['POST'])
 def register():
+    """Rejestracja nowego użytkownika"""
     data = request.get_json()
     username = data.get('username')
     password = data.get('password').encode('utf-8')
@@ -61,11 +68,12 @@ def register():
         conn.close()
         return jsonify({'success': False, 'message': 'Użytkownik już istnieje.'}), 409
     conn.close()
-
     return jsonify({'success': True, 'message': 'Zarejestrowano pomyślnie.'})
+
 
 @app.route('/api/login', methods=['POST'])
 def login():
+    """Logowanie użytkownika"""
     data = request.get_json()
     username = data.get('username')
     password = data.get('password').encode('utf-8')
@@ -83,23 +91,29 @@ def login():
     else:
         return jsonify({'success': False, 'message': 'Nieprawidłowe dane logowania.'}), 401
 
+
 @app.route('/api/logout', methods=['GET'])
 def logout():
+    """Wylogowanie użytkownika (czyszczenie sesji)"""
     session.clear()
     return jsonify({'success': True, 'message': 'Wylogowano'})
 
+
 @app.route('/api/user', methods=['GET'])
 def get_current_user():
+    """Pobranie aktualnie zalogowanego użytkownika"""
     if 'user_id' in session:
         return jsonify({'loggedIn': True, 'username': session['username']})
     else:
         return jsonify({'loggedIn': False}), 401
 
-# --------------------
-# Endpointy zadań
-# --------------------
+# ========================================
+# ENDPOINTY DOTYCZĄCE ZADAŃ
+# ========================================
+
 @app.route('/api/tasks', methods=['GET'])
 def get_tasks():
+    """Pobranie zadań użytkownika"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -109,6 +123,7 @@ def get_tasks():
     tasks = c.fetchall()
     conn.close()
 
+    # Zamiana wyników SQL na listę słowników JSON
     return jsonify([
         {
             'id': task[0],
@@ -121,8 +136,10 @@ def get_tasks():
         } for task in tasks
     ])
 
+
 @app.route('/api/tasks', methods=['POST'])
 def add_task():
+    """Dodanie nowego zadania"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -143,8 +160,10 @@ def add_task():
 
     return jsonify({'success': True})
 
+
 @app.route('/api/tasks/<int:task_id>', methods=['PUT'])
 def update_task(task_id):
+    """Aktualizacja istniejącego zadania"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -189,8 +208,10 @@ def update_task(task_id):
 
     return jsonify({'success': True})
 
+
 @app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
+    """Usunięcie zadania"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -202,8 +223,10 @@ def delete_task(task_id):
 
     return jsonify({'success': True})
 
+
 @app.route('/api/change-password', methods=['POST'])
 def change_password():
+    """Zmiana hasła zalogowanego użytkownika"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -226,9 +249,9 @@ def change_password():
         conn.close()
         return jsonify({'success': False, 'message': 'Obecne hasło jest nieprawidłowe.'}), 400
 
-# --------------------
-# Start serwera
-# --------------------
+# ========================================
+# URUCHOMIENIE APLIKACJI
+# ========================================
 if __name__ == '__main__':
-    init_db()
-    app.run(debug=True)
+    init_db()  # Tworzy tabele przy uruchomieniu serwera
+    app.run(debug=True)  # Tryb debugowania – tylko do developmentu

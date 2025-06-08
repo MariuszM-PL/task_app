@@ -1,11 +1,12 @@
+/* === PODSTAWOWY STYL ALERTU === */
 .alert {
-  position: fixed;
+  position: fixed;              /* przypięty do ekranu */
   top: 20px;
   right: 20px;
   padding: 1rem 1.5rem;
   border-radius: 5px;
   color: white;
-  z-index: 9999;
+  z-index: 9999;                /* bardzo wysoka warstwa */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
@@ -13,6 +14,7 @@
   min-width: 220px;
 }
 
+/* === PRZYCISK "×" === */
 .alert button {
   margin-left: 1rem;
   background: none;
@@ -22,14 +24,15 @@
   cursor: pointer;
 }
 
+/* === ALERTY TYPU SUCCESS, ERROR, INFO === */
 .alert.success {
-  background-color: #28a745;
+  background-color: #28a745;  /* zielony */
 }
 
 .alert.error {
-  background-color: #dc3545;
+  background-color: #dc3545;  /* czerwony */
 }
 
 .alert.info {
-  background-color: #007bff;
+  background-color: #007bff;  /* niebieski */
 }

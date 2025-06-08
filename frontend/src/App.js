@@ -1,8 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Routing klienta
+import { ToastContainer } from 'react-toastify'; // Powiadomienia typu toast
+import 'react-toastify/dist/ReactToastify.css'; // Styl domyślny dla toastów
 
+// Importy stron komponentowych
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -14,6 +15,7 @@ import SettingsPage from './pages/SettingsPage';
 function App() {
   return (
     <>
+      {/* Główna struktura routingu */}
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -26,22 +28,22 @@ function App() {
         </Routes>
       </Router>
 
+      {/* Konfiguracja kontenera toastów – globalny komponent */}
       <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        limit={3}
-        style={{ zIndex: 9999 }}
+        position="top-right"          // pozycja na ekranie
+        autoClose={3000}             // zamyka się automatycznie po 3s
+        hideProgressBar={false}      // pasek postępu widoczny
+        newestOnTop={false}          // nowsze nie nad starszymi
+        closeOnClick                 // zamykanie po kliknięciu
+        rtl={false}                  // kierunek tekstu (lewo-prawo)
+        pauseOnFocusLoss             // zatrzymuje licznik po zmianie zakładki
+        draggable                    // można przeciągać
+        pauseOnHover                 // zatrzymuje licznik po najechaniu
+        limit={3}                    // maksymalnie 3 aktywne toast'y jednocześnie
+        style={{ zIndex: 9999 }}     // żeby były zawsze nad innymi elementami
       />
     </>
   );
 }
 
 export default App;
-

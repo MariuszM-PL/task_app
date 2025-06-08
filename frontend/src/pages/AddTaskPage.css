@@ -1,3 +1,4 @@
+/* === GŁÓWNE TŁO I UKŁAD === */
 .add-task-container {
   min-height: 100vh;
   background: linear-gradient(to right, #4facfe, #a1def2);
@@ -9,6 +10,7 @@
   position: relative;
 }
 
+/* Dekoracyjne kółka w tle */
 .add-task-container::before {
   content: '';
   position: absolute;
@@ -35,6 +37,7 @@
   z-index: 0;
 }
 
+/* === PANEL Z FORMULARZEM === */
 .add-task-panel {
   background-color: white;
   padding: 2rem;
@@ -46,18 +49,21 @@
   z-index: 1;
 }
 
+/* Nagłówek formularza */
 .add-task-panel h2 {
   text-align: center;
   margin-bottom: 1.5rem;
   color: #4facfe;
 }
 
+/* === STYL FORMULARZA === */
 .add-task-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
+/* Pola formularza */
 .add-task-form input,
 .add-task-form textarea,
 .add-task-form select {
@@ -70,10 +76,12 @@
   resize: vertical;
 }
 
+/* Wysokość dla textarea */
 .add-task-form textarea {
   min-height: 100px;
 }
 
+/* === PRZYCISKI === */
 .add-task-form button {
   background-color: #4caf50;
   color: white;
@@ -85,10 +93,12 @@
   transition: background-color 0.3s ease;
 }
 
+/* Efekt hover */
 .add-task-form button:hover {
   background-color: #45a045;
 }
 
+/* Przycisk Anuluj */
 .add-task-form .cancel-button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
@@ -104,6 +114,7 @@
   background: #5a6268;
 }
 
+/* === RESPONSYWNOŚĆ DLA TELEFONÓW === */
 @media (max-width: 600px) {
   .add-task-container {
     padding: 1rem;

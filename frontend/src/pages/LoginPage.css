@@ -3,7 +3,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(to right, #4facfe, #a1def2);
+  background: linear-gradient(to right, #4facfe, #a1def2); /* gradient tła */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -121,7 +121,7 @@
 
 .input-wrapper input {
   width: 100%;
-  padding: 12px 12px 12px 40px;
+  padding: 12px 12px 12px 40px; /* miejsce na ikonkę z lewej */
   font-size: 1rem;
   background: transparent;
   border: none;
@@ -161,7 +161,7 @@
   }
 }
 
-/* === RESPONSYWNOŚĆ (opcjonalna, można dodać więcej jak potrzeba) === */
+/* === RESPONSYWNOŚĆ – dopasowanie dla niższych ekranów === */
 @media (max-height: 700px) {
   .login-box {
     padding: 1.5rem;
