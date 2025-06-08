@@ -13,6 +13,20 @@ TaskMate to intuicyjna aplikacja webowa stworzona w React i Flask, która umożl
 - ⚙️ Panel ustawień z możliwością zmiany hasła
 - 🔔 Powiadomienia toast (info, error, success)
 
+## 🔧 Wymagania wstępne
+
+Upewnij się, że masz zainstalowane:
+- [Node.js](https://nodejs.org/) (zalecana wersja: LTS v22.16.0)
+- [Python 3.13](https://www.python.org/)
+- `pip` – menedżer pakietów Pythona
+
+Sprawdzenie wersji:
+`bash
+node -v
+npm -v
+python --version
+pip --version`
+
 ## 🛠️ Technologie
 
 ### Frontend:
