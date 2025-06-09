@@ -47,7 +47,7 @@ pip --version`
 
 ```bash
 git clone https://github.com/MariuszM-PL/task_app.git
-cd taskmate
+cd task_app
 ```
 
 ### 2. Instalacja frontend (React)
@@ -75,7 +75,7 @@ python app.py
 ## 📁 Struktura katalogów
 
 ```
-taskmate/
+task_app/
 │
 ├── frontend/
 │   ├── pages/
