@@ -46,7 +46,7 @@ pip --version`
 ### 1. Klonuj repozytorium:
 
 ```bash
-git clone https://github.com/twoja-nazwa-uzytkownika/taskmate.git
+git clone (https://github.com/MariuszM-PL/task_app)
 cd taskmate
 ```
 
