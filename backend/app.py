@@ -5,22 +5,22 @@ import bcrypt
 
 # Tworzymy instancję aplikacji Flask
 app = Flask(__name__)
-app.secret_key = 'tajny_klucz'  # Klucz do obsługi sesji
-CORS(app, supports_credentials=True)  # Umożliwiamy komunikację z frontendem
+app.secret_key = 'tajny_klucz'  # Klucz potrzebny do bezpiecznego zarządzania sesjami (przechowywany np. w ciasteczkach)
+CORS(app, supports_credentials=True)  # Umożliwiamy komunikację z frontem Reacta (różne porty) i sesje z ciasteczkami
 
 # ========================================
-# INICJALIZACJA BAZY DANYCH
+# INICJALIZACJA BAZY DANYCH (tylko na start!)
 # ========================================
 def init_db():
-    # Tworzymy połączenie z lokalną bazą SQLite
+    """Inicjalizacja struktury bazy danych – tworzy tabele `users` i `tasks`"""
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
 
-    # Usuwamy tabele, jeśli już istnieją (resetowanie)
+    # Resetujemy tabelki – przydatne w czasie developmentu
     c.execute('DROP TABLE IF EXISTS tasks')
     c.execute('DROP TABLE IF EXISTS users')
 
-    # Tworzymy tabelę użytkowników
+    # Tabela użytkowników: ID, nazwa, zahaszowane hasło
     c.execute('''
         CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,7 +29,7 @@ def init_db():
         )
     ''')
 
-    # Tworzymy tabelę zadań powiązaną z użytkownikami
+    # Tabela zadań: przypisanie do użytkownika, tytuł, opis, termin, status, kategoria
     c.execute('''
         CREATE TABLE tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,11 +53,11 @@ def init_db():
 
 @app.route('/api/register', methods=['POST'])
 def register():
-    """Rejestracja nowego użytkownika"""
+    """Rejestracja nowego użytkownika. Hasło jest haszowane przed zapisaniem."""
     data = request.get_json()
     username = data.get('username')
     password = data.get('password').encode('utf-8')
-    hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())  # Bezpieczne hashowanie
 
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
@@ -65,6 +65,7 @@ def register():
         c.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, hashed_password))
         conn.commit()
     except sqlite3.IntegrityError:
+        # Nazwa użytkownika już istnieje
         conn.close()
         return jsonify({'success': False, 'message': 'Użytkownik już istnieje.'}), 409
     conn.close()
@@ -73,7 +74,7 @@ def register():
 
 @app.route('/api/login', methods=['POST'])
 def login():
-    """Logowanie użytkownika"""
+    """Logowanie – sprawdzenie hasła, zapisanie ID użytkownika w sesji"""
     data = request.get_json()
     username = data.get('username')
     password = data.get('password').encode('utf-8')
@@ -94,14 +95,14 @@ def login():
 
 @app.route('/api/logout', methods=['GET'])
 def logout():
-    """Wylogowanie użytkownika (czyszczenie sesji)"""
+    """Wylogowanie – usunięcie danych z sesji"""
     session.clear()
     return jsonify({'success': True, 'message': 'Wylogowano'})
 
 
 @app.route('/api/user', methods=['GET'])
 def get_current_user():
-    """Pobranie aktualnie zalogowanego użytkownika"""
+    """Sprawdzenie, czy użytkownik jest zalogowany – wykorzystywane np. przy odświeżeniu strony"""
     if 'user_id' in session:
         return jsonify({'loggedIn': True, 'username': session['username']})
     else:
@@ -113,17 +114,21 @@ def get_current_user():
 
 @app.route('/api/tasks', methods=['GET'])
 def get_tasks():
-    """Pobranie zadań użytkownika"""
+    """Zwraca wszystkie zadania zalogowanego użytkownika"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    c.execute('SELECT id, title, description, done, due_date, created_at, category FROM tasks WHERE user_id = ?', (session['user_id'],))
+    c.execute('''
+        SELECT id, title, description, done, due_date, created_at, category 
+        FROM tasks 
+        WHERE user_id = ?
+    ''', (session['user_id'],))
     tasks = c.fetchall()
     conn.close()
 
-    # Zamiana wyników SQL na listę słowników JSON
+    # Zwracamy zadania jako listę słowników JSON
     return jsonify([
         {
             'id': task[0],
@@ -139,7 +144,7 @@ def get_tasks():
 
 @app.route('/api/tasks', methods=['POST'])
 def add_task():
-    """Dodanie nowego zadania"""
+    """Dodaje nowe zadanie użytkownika"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -163,7 +168,7 @@ def add_task():
 
 @app.route('/api/tasks/<int:task_id>', methods=['PUT'])
 def update_task(task_id):
-    """Aktualizacja istniejącego zadania"""
+    """Aktualizacja zadania po ID – tylko jeśli należy do zalogowanego użytkownika"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -171,6 +176,7 @@ def update_task(task_id):
     fields = []
     values = []
 
+    # Dynamiczne tworzenie zapytania UPDATE na podstawie przesłanych pól
     if 'title' in data:
         fields.append("title = ?")
         values.append(data['title'])
@@ -194,6 +200,7 @@ def update_task(task_id):
     if not fields:
         return jsonify({'error': 'Brak danych do aktualizacji'}), 400
 
+    # Dodajemy ID zadania i użytkownika na koniec listy parametrów
     values.append(task_id)
     values.append(session['user_id'])
 
@@ -211,7 +218,7 @@ def update_task(task_id):
 
 @app.route('/api/tasks/<int:task_id>', methods=['DELETE'])
 def delete_task(task_id):
-    """Usunięcie zadania"""
+    """Usunięcie zadania – tylko własnego"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -226,7 +233,7 @@ def delete_task(task_id):
 
 @app.route('/api/change-password', methods=['POST'])
 def change_password():
-    """Zmiana hasła zalogowanego użytkownika"""
+    """Zmiana hasła użytkownika – wymaga podania obecnego i nowego hasła"""
     if 'user_id' not in session:
         return jsonify({'error': 'Nieautoryzowany'}), 401
 
@@ -250,8 +257,8 @@ def change_password():
         return jsonify({'success': False, 'message': 'Obecne hasło jest nieprawidłowe.'}), 400
 
 # ========================================
-# URUCHOMIENIE APLIKACJI
+# URUCHOMIENIE SERWERA
 # ========================================
 if __name__ == '__main__':
-    init_db()  # Tworzy tabele przy uruchomieniu serwera
-    app.run(debug=True)  # Tryb debugowania – tylko do developmentu
+    # init_db()  # 🔴 NIE wywołujemy tej funkcji automatycznie – baza pozostaje nienaruszona
+    app.run(debug=True)    # Tryb debugowania – przydatny w developmentcie
