@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Pobieranie parametrów URL i nawigacja
 import { toast } from 'react-toastify'; // Powiadomienia toastowe
-import './EditTaskPage.css'; // Styl dla strony edycji
+import './EditTaskPage.css'; // Import stylów
 
 const EditTaskPage = () => {
   const { id } = useParams(); // ID zadania z URL

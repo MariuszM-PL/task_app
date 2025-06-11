@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Do przekierowań między stronami
 import { FaUser, FaLock } from 'react-icons/fa'; // Ikonki pola użytkownika i hasła
-import './LoginPage.css';
+import './LoginPage.css'; // Import stylów
 import { toast } from 'react-toastify'; // Powiadomienia typu toast (np. sukces)
 
 const LoginPage = () => {

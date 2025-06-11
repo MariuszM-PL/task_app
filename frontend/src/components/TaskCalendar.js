@@ -1,6 +1,8 @@
 import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
+import 'moment/locale/pl'; // <-- dodaj to
 import moment from 'moment';
+
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './TaskCalendar.css';
 
@@ -20,6 +22,21 @@ const TaskCalendar = ({ tasks }) => {
       resource: task, // do użycia np. przy kolorowaniu
     }));
 
+    const messages = {
+      today: 'Dzisiaj',
+      previous: 'Poprzedni',
+      next: 'Następny',
+      month: 'Miesiąc',
+      week: 'Tydzień',
+      day: 'Dzień',
+      agenda: 'Agenda',
+      date: 'Data',
+      time: 'Godzina',
+      event: 'Zadanie',
+      noEventsInRange: 'Brak zadań w tym zakresie.',
+      showMore: total => `+${total} więcej`,
+    };
+    
   return (
     <div className="calendar-wrapper">
       <Calendar
@@ -29,6 +46,7 @@ const TaskCalendar = ({ tasks }) => {
         endAccessor="end"
         views={['month']}            // tylko widok miesięczny
         defaultView="month"
+        messages={messages} 
         eventPropGetter={(event) => {
           // Kolor tła wydarzenia w zależności od kategorii
           let color = '#888';

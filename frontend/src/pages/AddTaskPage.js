@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Hook do przekierowań
-import './AddTaskPage.css'; // Import stylów CSS
+import './AddTaskPage.css'; // Import stylów
 import { toast } from 'react-toastify'; // Powiadomienia
 
 const AddTaskPage = () => {

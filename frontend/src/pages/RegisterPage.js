@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Do przekierowań między stronami
-import './RegisterPage.css'; // Style dla tej strony
+import './RegisterPage.css'; // Import stylów
 import { toast } from 'react-toastify'; // Powiadomienia toast
 import { FaUser, FaLock } from 'react-icons/fa'; // Ikony pól formularza
 
