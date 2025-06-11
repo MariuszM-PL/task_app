@@ -1,32 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Hook do przekierowań
-import { toast } from 'react-toastify'; // Powiadomienia toast
-import './SettingsPage.css'; // Import stylów
+import { useNavigate } from 'react-router-dom'; // Hook do nawigacji (przekierowań)
+import { toast } from 'react-toastify'; // Powiadomienia typu "toast"
+import './SettingsPage.css'; // Styl lokalny dla strony ustawień
 
 const SettingsPage = () => {
-  // Stany dla danych użytkownika i pól formularza
+  // Stany dla nazwy użytkownika i pól hasła
   const [username, setUsername] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const navigate = useNavigate();
+  const [error, setError] = useState(''); // Komunikat walidacyjny
 
-  // Po załadowaniu strony pobieramy nazwę użytkownika (jeśli zalogowany)
+  const navigate = useNavigate(); // Do przekierowywania użytkownika
+
+  // Po załadowaniu komponentu pobierz dane użytkownika (jeśli zalogowany)
   useEffect(() => {
     fetch('http://localhost:5000/api/user', {
-      credentials: 'include', // ważne – ciasteczka sesyjne
+      credentials: 'include', // Wysyłamy ciasteczka sesyjne
     })
       .then(res => {
         if (!res.ok) throw new Error('Brak autoryzacji');
         return res.json();
       })
       .then(data => setUsername(data.username))
-      .catch(() => navigate('/')); // Brak sesji – przekierowanie
+      .catch(() => navigate('/')); // Jeśli błąd – przekieruj na stronę główną
   }, [navigate]);
 
-  // Obsługa formularza zmiany hasła
+  // Obsługa wysłania formularza zmiany hasła
   const handlePasswordChange = async (e) => {
     e.preventDefault();
 
+    // Walidacja długości nowego hasła
+    if (newPassword.length < 6) {
+      setError('Nowe hasło musi mieć co najmniej 6 znaków.');
+      return;
+    }
+    if (newPassword.length > 100) {
+      setError('Nowe hasło nie może przekraczać 100 znaków.');
+      return;
+    }
+
+    // Wysłanie danych do backendu
     const response = await fetch('http://localhost:5000/api/change-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -37,11 +50,14 @@ const SettingsPage = () => {
     const data = await response.json();
 
     if (response.ok) {
+      // Jeśli sukces – toast i reset pól
       toast.success('✅ Hasło zostało zmienione!');
       setCurrentPassword('');
       setNewPassword('');
+      setError('');
     } else {
-      toast.error(`❌ ${data.message || 'Wystąpił błąd'}`);
+      // Jeśli błąd – wyświetl komunikat
+      setError(data.message || 'Wystąpił błąd podczas zmiany hasła.');
     }
   };
 
@@ -67,10 +83,14 @@ const SettingsPage = () => {
             onChange={e => setNewPassword(e.target.value)}
             required
           />
+
+          {/* Komunikat walidacyjny lub błąd z backendu */}
+          {error && <p className="error">{error}</p>}
+
           <button type="submit">💾 Zmień hasło</button>
         </form>
 
-        {/* Przycisk powrotu do dashboardu */}
+        {/* Przycisk powrotu */}
         <button className="back-button" onClick={() => navigate('/dashboard')}>
           ↩️ Powrót do zadań
         </button>

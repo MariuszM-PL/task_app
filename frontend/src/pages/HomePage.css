@@ -1,9 +1,9 @@
 /* === GŁÓWNY KONTEKST STRONY === */
 .home-container {
   width: 100%;
-  height: 100dvh; /* Dynamiczna wysokość widoku */
-  height: 100vh;   /* Fallback dla przeglądarek nieobsługujących dvh */
-  background: radial-gradient(circle, #a1def2 0%, #a1def2 70%, #4facfe 95%);
+  height: 100dvh; /* Używa dynamicznej wysokości viewportu (obsługiwane w nowoczesnych przeglądarkach) */
+  height: 100vh;   /* Fallback – dla starszych przeglądarek */
+  background: radial-gradient(circle, #a1def2 0%, #a1def2 70%, #4facfe 95%); /* Tło z delikatnym przejściem kolorów */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,12 +16,12 @@
 /* === DEKORACYJNE OKRĘGI W TLE === */
 .home-container::before,
 .home-container::after {
-  content: '';
+  content: ''; /* Pseudo-elementy – nie zawierają treści */
   position: absolute;
-  border-radius: 50%;
+  border-radius: 50%; /* Okrągły kształt */
   background: white;
-  pointer-events: none; /* Ignoruj kliknięcia */
-  z-index: 0; /* Tło – za treścią */
+  pointer-events: none; /* Nie wpływają na interakcję użytkownika */
+  z-index: 0; /* Ustawione za właściwą treścią strony */
 }
 
 .home-container::before {
@@ -42,40 +42,40 @@
 
 /* === LOGO NA ŚRODKU === */
 .logo {
-  width: 50vw;
-  max-width: 700px;
-  margin-bottom: 30px;
-  z-index: 1;
+  width: 50vw;         /* Procent szerokości ekranu */
+  max-width: 700px;    /* Ograniczenie szerokości */
+  margin-bottom: 30px; /* Odstęp od przycisku */
+  z-index: 1;          /* Nad tłem */
 }
 
 /* === PRZYCISK START === */
 .home-button {
   padding: 16px 36px;
   font-size: 1.3rem;
-  background-color: #f56242;
+  background-color: #f56242; /* Czerwonopomarańczowy */
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  z-index: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Lekki cień */
+  transition: background-color 0.2s ease, transform 0.1s ease; /* Efekt hover */
+  z-index: 1; /* Nad tłem */
 }
 
 .home-button:hover {
-  background-color: #faa237;
-  transform: scale(1.03);
+  background-color: #faa237; /* Jaśniejszy odcień po najechaniu */
+  transform: scale(1.03);    /* Lekkie powiększenie */
 }
 
 /* === RESPONSYWNOŚĆ: MAŁA SZEROKOŚĆ EKRANU === */
 @media (max-width: 600px) {
   .logo {
-    width: 80vw;
+    width: 80vw; /* Większa szerokość dla mniejszych ekranów */
   }
 
   .home-button {
     padding: 12px 24px;
-    font-size: 1rem;
+    font-size: 1rem; /* Mniejszy rozmiar czcionki i przycisku */
   }
 }
 
@@ -84,6 +84,6 @@
   .logo {
     width: 55vw;
     max-width: 500px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.2rem; /* Mniejszy odstęp przy ograniczonej wysokości */
   }
 }

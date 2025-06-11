@@ -1,9 +1,11 @@
+/* === IMPORT CZCIONKI ROBOTO Z GOOGLE FONTS === */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* === TŁO STRONY === */
 .edit-task-container {
   font-family: "Roboto", sans-serif;
   min-height: 100vh;
-  background: linear-gradient(to right, #4facfe, #a1def2);
+  background: linear-gradient(to right, #4facfe, #a1def2); /* gradient tła */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,7 +15,7 @@
   overflow: hidden;
 }
 
-/* Dekoracyjne okręgi w tle */
+/* === DEKORACYJNE OKRĘGI W TLE === */
 .edit-task-container::before,
 .edit-task-container::after {
   content: '';
@@ -44,10 +46,10 @@
   background-color: white;
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* delikatny cień */
   width: 100%;
   max-width: 500px;
-  z-index: 1;
+  z-index: 1; /* nad tłem */
   position: relative;
 }
 
@@ -57,11 +59,11 @@
   color: #4facfe;
 }
 
-/* === FORMULARZ === */
+/* === FORMULARZ EDYCJI === */
 .edit-task-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1rem; /* odstęp między polami */
 }
 
 .edit-task-form input,
@@ -77,12 +79,12 @@
 }
 
 .edit-task-form textarea {
-  min-height: 100px;
+  min-height: 100px; /* minimalna wysokość pola tekstowego */
 }
 
-/* === PRZYCISKI === */
+/* === PRZYCISK ZAPISU === */
 .edit-task-form button {
-  background-color: #4caf50;
+  background-color: #4caf50; /* zielony kolor */
   color: white;
   padding: 10px 18px;
   border: none;
@@ -96,11 +98,11 @@
   background-color: #45a045;
 }
 
-/* Przycisk anulowania */
+/* === PRZYCISK ANULUJ === */
 .edit-task-form .cancel-button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background: #6c757d;
+  background: #6c757d; /* szary przycisk */
   color: white;
   border: none;
   border-radius: 5px;
@@ -120,7 +122,17 @@
   font-size: 1.2rem;
 }
 
-/* === RESPONSYWNOŚĆ === */
+/* === EFEKT FOCUS DLA POLA FORMULARZA === */
+.edit-task-form input:focus,
+.edit-task-form textarea:focus,
+.edit-task-form select:focus {
+  border-color: #4facfe;
+  box-shadow: 0 2px 4px rgba(79, 172, 254, 0.2);
+  outline: none;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* === RESPONSYWNOŚĆ DLA MAŁYCH EKRANÓW === */
 @media (max-width: 600px) {
   .edit-task-container {
     padding: 1rem;

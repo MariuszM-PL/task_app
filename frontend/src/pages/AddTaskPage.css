@@ -1,4 +1,6 @@
+/* === IMPORT CZCIONKI ROBOTO Z GOOGLE FONTS === */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* === TŁO STRONY I POZYCJONOWANIE === */
 .add-task-container {
   min-height: 100vh;
@@ -13,14 +15,14 @@
   overflow: hidden;
 }
 
-/* Dekoracyjne okręgi w tle */
+/* === DEKORACYJNE OKRĘGI W TLE === */
 .add-task-container::before,
 .add-task-container::after {
   content: '';
   position: absolute;
   border-radius: 50%;
   background: white;
-  z-index: 0;
+  z-index: 0; /* tło znajduje się pod formularzem */
 }
 
 .add-task-container::before {
@@ -47,7 +49,7 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
-  z-index: 1;
+  z-index: 1; /* nad tłem */
   position: relative;
 }
 
@@ -77,12 +79,12 @@
   width: 100%;
 }
 
-/* Pole tekstowe z opisem */
+/* === POLE TEKSTOWE OPISU === */
 .add-task-form textarea {
   min-height: 100px;
 }
 
-/* === PRZYCISKI === */
+/* === PRZYCISK ZAPISU === */
 .add-task-form button {
   background-color: #4caf50;
   color: white;
@@ -99,7 +101,7 @@
   background-color: #45a045;
 }
 
-/* Przycisk anulowania */
+/* === PRZYCISK ANULOWANIA === */
 .add-task-form .cancel-button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
@@ -111,10 +113,21 @@
   font-family: "Roboto", sans-serif;
   cursor: pointer;
   width: 100%;
+  text-align: center;
 }
 
 .add-task-form .cancel-button:hover {
   background-color: #5a6268;
+}
+
+/* === EFEKT FOCUS DLA POLA FORMULARZA === */
+.add-task-form input:focus,
+.add-task-form textarea:focus,
+.add-task-form select:focus {
+  border-color: #4facfe;
+  box-shadow: 0 2px 4px rgba(79, 172, 254, 0.2);
+  outline: none;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 /* === RESPONSYWNOŚĆ === */

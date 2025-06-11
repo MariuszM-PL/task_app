@@ -1,24 +1,38 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Hook do przekierowań
-import './AddTaskPage.css'; // Import stylów
-import { toast } from 'react-toastify'; // Powiadomienia
+import { useNavigate } from 'react-router-dom'; // Hook do przekierowań między stronami
+import './AddTaskPage.css'; // Import pliku stylów
+import { toast } from 'react-toastify'; // Biblioteka do powiadomień typu toast
 
 const AddTaskPage = () => {
-  // Stany lokalne dla pól formularza
+  // Stany lokalne dla danych formularza
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [category, setCategory] = useState('Dom'); // domyślnie "Dom"
   const navigate = useNavigate();
 
-  // Obsługa przesłania formularza
+  // Obsługa wysłania formularza
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Zablokowanie domyślnego przeładowania strony
+
+    // Walidacja danych przed wysłaniem
+    if (!title.trim()) {
+      toast.warn('⚠️ Tytuł jest wymagany');
+      return;
+    }
+    if (title.length > 100) {
+      toast.warn('⚠️ Tytuł nie może przekraczać 100 znaków');
+      return;
+    }
+    if (description.length > 1000) {
+      toast.warn('⚠️ Opis nie może przekraczać 1000 znaków');
+      return;
+    }
 
     const response = await fetch('http://localhost:5000/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      credentials: 'include', // Wysłanie ciasteczek sesyjnych
       body: JSON.stringify({
         title,
         description,
@@ -28,8 +42,13 @@ const AddTaskPage = () => {
     });
 
     if (response.ok) {
+      // Wyczyść pola formularza
+      setTitle('');
+      setDescription('');
+      setDueDate('');
+      setCategory('Dom');
       toast.info('✅ Dodano nowe zadanie', { autoClose: 2000 });
-      navigate('/dashboard');
+      navigate('/dashboard'); // Powrót do panelu użytkownika
     } else {
       toast.error('❌ Błąd podczas dodawania zadania');
     }
@@ -47,13 +66,15 @@ const AddTaskPage = () => {
             placeholder="Tytuł"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            maxLength={100}
             required
           />
 
           <textarea
-            placeholder="Opis"
+            placeholder="Napisz coś więcej o zadaniu…"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            maxLength={1000}
           />
 
           <input
@@ -71,10 +92,10 @@ const AddTaskPage = () => {
             <option value="Szkoła">Szkoła</option>
           </select>
 
-          {/* Przycisk zatwierdzenia */}
+          {/* Przycisk zatwierdzający dodanie */}
           <button type="submit">💾 Dodaj</button>
 
-          {/* Anulowanie i powrót */}
+          {/* Przycisk anulowania i powrotu */}
           <button
             type="button"
             className="cancel-button"

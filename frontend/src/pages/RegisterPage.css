@@ -1,25 +1,27 @@
+/* === IMPORT CZCIONKI ROBOTO Z GOOGLE FONTS === */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* === GŁÓWNY KONTENER STRONY === */
 .register-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(to right, #4facfe, #a1def2); /* gradient tła */
-  display: flex;
+  position: relative; /* potrzebne do pozycjonowania pseudo-elementów */
+  width: 100vw; /* pełna szerokość okna */
+  height: 100vh; /* pełna wysokość okna */
+  background: linear-gradient(to right, #4facfe, #a1def2); /* gradientowe tło */
+  display: flex; /* centrowanie zawartości */
   align-items: center;
   justify-content: center;
-  font-family: "Roboto", sans-serif;
-  overflow: hidden;
+  font-family: "Roboto", sans-serif; /* nowoczesna czcionka */
+  overflow: hidden; /* ukrywa elementy dekoracyjne wychodzące poza kontener */
 }
 
 /* === DEKORACYJNE OKRĘGI W TLE === */
 .register-container::before,
 .register-container::after {
-  content: '';
+  content: ''; /* obowiązkowe przy pseudo-elementach */
   position: absolute;
-  border-radius: 50%;
+  border-radius: 50%; /* okrągły kształt */
   background: white;
-  z-index: 0;
+  z-index: 0; /* za resztą zawartości */
 }
 
 .register-container::before {
@@ -27,7 +29,7 @@
   right: -100px;
   width: 300px;
   height: 300px;
-  opacity: 0.4;
+  opacity: 0.4; /* delikatne rozjaśnienie */
 }
 
 .register-container::after {
@@ -35,17 +37,17 @@
   left: -120px;
   width: 350px;
   height: 350px;
-  opacity: 0.25;
+  opacity: 0.25; /* jeszcze subtelniejsze */
 }
 
 /* === GŁÓWNE OKNO FORMULARZA === */
 .register-box {
   position: relative;
-  z-index: 1;
+  z-index: 1; /* nad pseudo-elementami tła */
   background-color: white;
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* cień kontenera */
   width: 90%;
   max-width: 400px;
   text-align: center;
@@ -65,7 +67,7 @@
   font-size: 1rem;
   background: transparent;
   border: none;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid #ccc; /* dolna linia jako obramowanie */
   outline: none;
 }
 
@@ -84,14 +86,14 @@
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease; /* płynne przejście przy hoverze */
 }
 
 .register-box button:hover {
-  opacity: 0.95;
+  opacity: 0.95; /* subtelne przyciemnienie */
 }
 
-/* === BŁĘDY I LINKI === */
+/* === KOMUNIKATY BŁĘDÓW I LINKI === */
 .register-box .error {
   color: red;
   margin-bottom: 10px;
@@ -105,28 +107,29 @@
   margin-top: 1rem;
   display: block;
   font-size: 0.9rem;
-  color: #007bff;
+  color: #007bff; /* odcień niebieskiego */
   text-decoration: underline;
   cursor: pointer;
 }
 
-/* === IKONY W POLACH FORMULARZA === */
+/* === OPRAWA POLA Z IKONĄ === */
 .input-wrapper {
-  position: relative;
+  position: relative; /* dla pozycjonowania ikony */
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
 }
 
 .input-wrapper input {
-  padding: 12px 12px 12px 40px; /* miejsce na ikonkę */
+  padding: 12px 12px 12px 40px; /* miejsce na ikonę po lewej stronie */
 }
 
+/* === IKONA W POLU FORMULARZA === */
 .input-icon {
   position: absolute;
   left: 10px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); /* centrowanie pionowe */
   color: #aaa;
   font-size: 1rem;
 }
@@ -134,16 +137,16 @@
 /* === EFEKT KLIKNIĘCIA (RIPPLE) === */
 .ripple-button {
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* ukrywa element ripple poza przyciskiem */
 }
 
 .ripple {
   position: absolute;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.6);
-  transform: scale(0);
+  background-color: rgba(255, 255, 255, 0.6); /* biały półprzezroczysty efekt */
+  transform: scale(0); /* początkowa skala */
   animation: ripple-animation 0.9s linear;
-  pointer-events: none;
+  pointer-events: none; /* nie przeszkadza w kliknięciu */
   z-index: 1;
 }
 
@@ -154,7 +157,14 @@
   }
 }
 
-/* === RESPONSYWNOŚĆ DLA NISKICH WYSOKOŚCI === */
+/* === EFEKT FOCUS DLA POLA FORMULARZA === */
+.register-box input:focus {
+  border-bottom-color: #4facfe;
+  box-shadow: 0 2px 4px rgba(79, 172, 254, 0.2);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* === RESPONSYWNOŚĆ DLA MAŁYCH EKRANÓW === */
 @media (max-height: 700px) {
   .register-box {
     padding: 1.5rem;

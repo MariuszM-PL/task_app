@@ -13,6 +13,7 @@ import EditTaskPage from './pages/EditTaskPage';
 import SettingsPage from './pages/SettingsPage';
 
 function App() {
+  // Główny komponent aplikacji – zawiera routing oraz globalne powiadomienia
   return (
     <>
       {/* Główna struktura routingu */}

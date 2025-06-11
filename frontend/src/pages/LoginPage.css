@@ -1,26 +1,27 @@
+/* === IMPORT CZCIONKI ROBOTO === */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* === KONTEKST CAŁEJ STRONY === */
+/* === KONTEKST CAŁEJ STRONY (kontener logowania) === */
 .login-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(to right, #4facfe, #a1def2);
-  display: flex;
+  position: relative; /* potrzebne dla dekoracyjnych pseudo-elementów */
+  width: 100vw; /* pełna szerokość okna przeglądarki */
+  height: 100vh; /* pełna wysokość okna przeglądarki */
+  background: linear-gradient(to right, #4facfe, #a1def2); /* niebieski gradient w tle */
+  display: flex; /* centrowanie logowania */
   align-items: center;
   justify-content: center;
-  font-family: "Roboto", sans-serif;
-  overflow: hidden;
+  font-family: "Roboto", sans-serif; /* czytelna czcionka */
+  overflow: hidden; /* ukrycie dekoracyjnych elementów poza kontenerem */
 }
 
-/* === TŁO: ozdobne okręgi === */
+/* === DEKORACYJNE OKRĘGI W TLE (góra i dół) === */
 .login-container::before,
 .login-container::after {
-  content: '';
+  content: ''; /* wymagane przy użyciu pseudo-elementów */
   position: absolute;
-  border-radius: 50%;
+  border-radius: 50%; /* kształt koła */
   background: white;
-  z-index: 0;
+  z-index: 0; /* pod spodem zawartości */
 }
 
 .login-container::before {
@@ -28,7 +29,7 @@
   right: -100px;
   width: 300px;
   height: 300px;
-  opacity: 0.4;
+  opacity: 0.4; /* lekko przezroczysty */
 }
 
 .login-container::after {
@@ -36,24 +37,20 @@
   left: -120px;
   width: 350px;
   height: 350px;
-  opacity: 0.25;
+  opacity: 0.25; /* jeszcze bardziej subtelny */
 }
 
-/* === BOX Z LOGOWANIEM === */
+/* === GŁÓWNY BOX LOGOWANIA === */
 .login-box {
   position: relative;
-  z-index: 1;
+  z-index: 1; /* nad dekoracjami */
   background-color: white;
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* cień dla efektu uniesienia */
   width: 90%;
   max-width: 360px;
   text-align: center;
-}
-
-.login-box input::placeholder {
-  color: #aaa;
 }
 
 .login-box h2 {
@@ -62,9 +59,13 @@
   color: #5a6364;
 }
 
-/* === FORMULARZ LOGOWANIA === */
+.login-box input::placeholder {
+  color: #aaa; /* kolor tekstu podpowiedzi w polach */
+}
+
+/* === UKŁAD POLA FORMULARZA (ikonka + input) === */
 .input-wrapper {
-  position: relative;
+  position: relative; /* potrzebne do pozycjonowania ikony */
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
@@ -72,7 +73,7 @@
 
 .input-wrapper input {
   width: 100%;
-  padding: 12px 12px 12px 40px;
+  padding: 12px 12px 12px 40px; /* miejsce po lewej na ikonę */
   font-size: 1rem;
   background: transparent;
   border: none;
@@ -80,57 +81,58 @@
   outline: none;
 }
 
+/* === IKONKI W FORMULARZU === */
 .input-icon {
   position: absolute;
   left: 10px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); /* centrowanie ikony w pionie */
   color: #aaa;
   font-size: 1.1rem;
 }
 
-/* === PRZYCISK ZALOGUJ SIĘ === */
+/* === PRZYCISK LOGOWANIA === */
 .login-box button {
   width: 100%;
   padding: 12px;
   margin: 40px 0;
-  background: linear-gradient(to right, #42adf5, #a1def2);
+  background: linear-gradient(to right, #42adf5, #a1def2); /* niebieski gradient */
   color: white;
   border: none;
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease; /* płynna zmiana po najechaniu */
 }
 
 .login-box button:hover {
-  opacity: 0.95;
+  opacity: 0.95; /* delikatne przyciemnienie */
 }
 
-/* === EFEKT KLIKNIĘCIA === */
+/* === EFEKT RIPPLE PRZY KLIKNIĘCIU === */
 .ripple-button {
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* ripple nie wychodzi poza przycisk */
 }
 
 .ripple {
   position: absolute;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.6);
-  transform: scale(0);
+  transform: scale(0); /* początkowa skala */
   animation: ripple-animation 0.9s linear;
-  pointer-events: none;
+  pointer-events: none; /* nie blokuje kliknięcia */
   z-index: 1;
 }
 
 @keyframes ripple-animation {
   to {
-    transform: scale(4);
-    opacity: 0;
+    transform: scale(4); /* rozszerzenie efektu */
+    opacity: 0; /* stopniowe zanikanie */
   }
 }
 
-/* === BŁĘDY I KOMUNIKATY === */
+/* === KOMUNIKATY I LINKI === */
 .login-box .error {
   color: red;
   margin-bottom: 10px;
@@ -147,7 +149,14 @@
   cursor: pointer;
 }
 
-/* === RESPONSYWNOŚĆ === */
+/* === EFEKT FOCUS DLA POLA FORMULARZA === */
+.input-wrapper input:focus {
+  border-bottom-color: #4facfe;
+  box-shadow: 0 2px 4px rgba(79, 172, 254, 0.2);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* === RESPONSYWNOŚĆ DLA MAŁYCH EKRANÓW === */
 @media (max-height: 700px) {
   .login-box {
     padding: 1.5rem;
