@@ -21,7 +21,7 @@ const TaskCalendar = ({ tasks }) => {
     }));
 
   return (
-    <div style={{ height: 400 }}>
+    <div className="calendar-wrapper">
       <Calendar
         localizer={localizer}
         events={events}

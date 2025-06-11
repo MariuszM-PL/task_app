@@ -1,43 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import './SettingsPage.css';
+import { useNavigate } from 'react-router-dom'; // Hook do przekierowań
+import { toast } from 'react-toastify'; // Powiadomienia toast
+import './SettingsPage.css'; // Import stylów
 
 const SettingsPage = () => {
-  const [username, setUsername] = useState(''); // nazwa użytkownika
-  const [currentPassword, setCurrentPassword] = useState(''); // pole: obecne hasło
-  const [newPassword, setNewPassword] = useState(''); // pole: nowe hasło
+  // Stany dla danych użytkownika i pól formularza
+  const [username, setUsername] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const navigate = useNavigate();
 
-  // Pobranie danych użytkownika po załadowaniu komponentu
+  // Po załadowaniu strony pobieramy nazwę użytkownika (jeśli zalogowany)
   useEffect(() => {
     fetch('http://localhost:5000/api/user', {
-      credentials: 'include'
+      credentials: 'include', // ważne – ciasteczka sesyjne
     })
-      .then(res => res.json())
-      .then(data => setUsername(data.username)) // ustawiamy nazwę użytkownika
-      .catch(() => navigate('/')); // przekieruj na login przy błędzie
+      .then(res => {
+        if (!res.ok) throw new Error('Brak autoryzacji');
+        return res.json();
+      })
+      .then(data => setUsername(data.username))
+      .catch(() => navigate('/')); // Brak sesji – przekierowanie
   }, [navigate]);
 
-  // Obsługa zmiany hasła
+  // Obsługa formularza zmiany hasła
   const handlePasswordChange = async (e) => {
     e.preventDefault();
 
-    const res = await fetch('http://localhost:5000/api/change-password', {
+    const response = await fetch('http://localhost:5000/api/change-password', {
       method: 'POST',
-      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPassword, newPassword })
+      credentials: 'include',
+      body: JSON.stringify({ currentPassword, newPassword }),
     });
 
-    const data = await res.json();
+    const data = await response.json();
 
-    if (res.ok) {
-      toast.success('Hasło zostało zmienione');
+    if (response.ok) {
+      toast.success('✅ Hasło zostało zmienione!');
       setCurrentPassword('');
       setNewPassword('');
     } else {
-      toast.error(`❌ ${data.message || 'Błąd przy zmianie hasła'}`);
+      toast.error(`❌ ${data.message || 'Wystąpił błąd'}`);
     }
   };
 
@@ -47,7 +51,8 @@ const SettingsPage = () => {
         <h2>⚙️ Ustawienia konta</h2>
         <p><strong>Zalogowany jako:</strong> {username}</p>
 
-        <form onSubmit={handlePasswordChange} className="settings-form">
+        {/* Formularz zmiany hasła */}
+        <form className="settings-form" onSubmit={handlePasswordChange}>
           <input
             type="password"
             placeholder="Obecne hasło"
@@ -65,6 +70,7 @@ const SettingsPage = () => {
           <button type="submit">💾 Zmień hasło</button>
         </form>
 
+        {/* Przycisk powrotu do dashboardu */}
         <button className="back-button" onClick={() => navigate('/dashboard')}>
           ↩️ Powrót do zadań
         </button>

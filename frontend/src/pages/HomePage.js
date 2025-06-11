@@ -1,26 +1,30 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Hook do nawigacji między stronami
-import './HomePage.css'; // Import stylów CSS dla tej strony
-import illustration from '../assets/taskmate.png'; // Ilustracja (np. logo, grafika tła)
+import './HomePage.css'; // Styl dla strony głównej
+import illustration from '../assets/taskmate.png'; // Ilustracja np. z logo aplikacji
 
 const HomePage = () => {
-  const navigate = useNavigate(); // Inicjalizacja hooka do przekierowywania
+  const navigate = useNavigate(); // Hook do zmiany ścieżki (routing)
 
   return (
     <div className="home-container">
-      {/* Ilustracja na środku strony */}
+      {/* Ilustracja główna */}
       <img
         src={illustration}
         alt="Ilustracja notatnika"
         className="illustration"
       />
 
-      {/* Przycisk, który po kliknięciu przenosi na stronę logowania */}
-      <button className="home-button" onClick={() => navigate('/login')}>
+      {/* Przycisk START przekierowuje do logowania */}
+      <button
+        className="home-button"
+        onClick={() => navigate('/login')}
+        aria-label="Rozpocznij korzystanie z aplikacji"
+      >
         START
       </button>
     </div>
   );
 };
 
-export default HomePage; // Eksport komponentu do użycia w innych plikach
+export default HomePage;

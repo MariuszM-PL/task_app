@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import './EditTaskPage.css';
+import { useParams, useNavigate } from 'react-router-dom'; // Pobieranie parametrów URL i nawigacja
+import { toast } from 'react-toastify'; // Powiadomienia toastowe
+import './EditTaskPage.css'; // Styl dla strony edycji
 
 const EditTaskPage = () => {
-  const { id } = useParams(); // pobieramy ID zadania z URL
+  const { id } = useParams(); // ID zadania z URL
   const navigate = useNavigate();
-  const [task, setTask] = useState(null); // dane edytowanego zadania
-  const [loading, setLoading] = useState(true); // stan ładowania
 
-  // Załaduj zadanie przy pierwszym renderze
+  // Stany komponentu
+  const [task, setTask] = useState(null); // Dane konkretnego zadania
+  const [loading, setLoading] = useState(true); // Czy dane się ładują
+
+  // Pobranie danych zadania po załadowaniu komponentu
   useEffect(() => {
     fetch('http://localhost:5000/api/tasks', {
       credentials: 'include'
     })
       .then(res => res.json())
       .then(data => {
-        const found = data.find(t => t.id === parseInt(id)); // znajdź zadanie po ID
+        const found = data.find(t => t.id === parseInt(id)); // Znalezienie zadania po ID
         if (found) setTask(found);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => setLoading(false)); // Obsługa błędu
   }, [id]);
 
-  // Aktualizacja pól formularza
+  // Obsługa zmian w formularzu
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTask(prev => ({ ...prev, [name]: value }));
@@ -40,18 +42,20 @@ const EditTaskPage = () => {
       body: JSON.stringify(task)
     });
 
-    toast.info('Zadanie zostało edytowane!');
-    setTimeout(() => navigate('/dashboard'), 1500); // powrót po chwili
+    toast.info('✅ Zadanie zostało edytowane!');
+    setTimeout(() => navigate('/dashboard'), 1500); // Opóźnienie powrotu
   };
 
-  // Stan ładowania lub brak zadania
-  if (loading) return <p className="loading">Ładowanie...</p>;
-  if (!task) return <p className="error">Nie znaleziono zadania.</p>;
+  // Widok w trakcie ładowania lub gdy nie znaleziono zadania
+  if (loading) return <p className="loading">⏳ Ładowanie...</p>;
+  if (!task) return <p className="error">❌ Nie znaleziono zadania.</p>;
 
   return (
     <div className="edit-task-container">
       <div className="edit-task-panel">
-        <h2>Edytuj zadanie</h2>
+        <h2>✏️ Edytuj zadanie</h2>
+
+        {/* Formularz edycji zadania */}
         <form onSubmit={handleSubmit} className="edit-task-form">
           <input
             type="text"
@@ -61,18 +65,21 @@ const EditTaskPage = () => {
             onChange={handleChange}
             required
           />
+
           <textarea
             name="description"
             placeholder="Opis"
             value={task.description}
             onChange={handleChange}
           />
+
           <input
             type="date"
             name="due_date"
             value={task.due_date || ''}
             onChange={handleChange}
           />
+
           <select
             name="category"
             value={task.category || ''}
@@ -84,13 +91,13 @@ const EditTaskPage = () => {
             <option value="Szkoła">Szkoła</option>
           </select>
 
-          <button type="submit">Zapisz zmiany</button>
+          <button type="submit">💾 Zapisz zmiany</button>
           <button
             type="button"
             className="cancel-button"
             onClick={() => navigate('/dashboard')}
           >
-            Anuluj
+            ↩️ Anuluj
           </button>
         </form>
       </div>

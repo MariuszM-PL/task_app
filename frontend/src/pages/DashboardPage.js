@@ -1,57 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaTrashAlt, FaEdit, FaCheck, FaUndo } from 'react-icons/fa';
-import './DashboardPage.css';
 import { toast } from 'react-toastify';
-import TaskCalendar from '../components/TaskCalendar';
-import { FaCog } from 'react-icons/fa'; // ikona do przycisku ustawień
+
+// Ikony
+import { FaTrashAlt, FaEdit, FaCheck, FaUndo, FaCog } from 'react-icons/fa';
 import { IoIosAddCircle } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
 
+// Komponent kalendarza
+import TaskCalendar from '../components/TaskCalendar';
+
+// Styl
+import './DashboardPage.css';
+
 const DashboardPage = () => {
-  const [tasks, setTasks] = useState([]); // lista zadań
-  const [username, setUsername] = useState(''); // nazwa zalogowanego użytkownika
-  const [selectedTask, setSelectedTask] = useState(null); // aktualnie zaznaczone zadanie
-  const [filter, setFilter] = useState('all'); // filtr (wszystkie, ukończone, nieukończone)
-  const [sort, setSort] = useState('date'); // sortowanie (data lub kategoria)
+  // === STANY ===
+  const [tasks, setTasks] = useState([]); // lista zadań użytkownika
+  const [username, setUsername] = useState(''); // aktualna nazwa użytkownika
+  const [selectedTask, setSelectedTask] = useState(null); // ID zaznaczonego zadania
+  const [filter, setFilter] = useState('all'); // filtr statusu
+  const [sort, setSort] = useState('date'); // tryb sortowania
+  const [searchTerm, setSearchTerm] = useState(''); // fraza do wyszukiwania
   const navigate = useNavigate();
 
-  // Po załadowaniu komponentu, sprawdzamy czy użytkownik jest zalogowany
+  // === SPRAWDZANIE AUTORYZACJI I POBRANIE ZADAŃ ===
   useEffect(() => {
-    fetch('http://localhost:5000/api/user', {
-      credentials: 'include',
-    })
-      .then((res) => {
+    fetch('http://localhost:5000/api/user', { credentials: 'include' })
+      .then(res => {
         if (!res.ok) throw new Error('Brak sesji');
         return res.json();
       })
-      .then((data) => {
+      .then(data => {
         setUsername(data.username);
-        loadTasks(); // pobranie zadań po udanym logowaniu
+        loadTasks(); // załaduj zadania po uwierzytelnieniu
       })
-      .catch(() => {
-        navigate('/'); // jeśli nie jesteśmy zalogowani, wracamy na stronę główną
-      });
+      .catch(() => navigate('/')); // przekierowanie przy braku sesji
   }, [navigate]);
 
-  // Funkcja pobierająca zadania użytkownika
+  // === FUNKCJA POBIERANIA ZADAŃ ===
   const loadTasks = () => {
-    fetch('http://localhost:5000/api/tasks', {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => setTasks(data));
+    fetch('http://localhost:5000/api/tasks', { credentials: 'include' })
+      .then(res => res.json())
+      .then(setTasks);
   };
 
-  // Wylogowanie – czyści sesję i przenosi na Home
+  // === WYLOGOWANIE UŻYTKOWNIKA ===
   const logout = async () => {
-    await fetch('http://localhost:5000/api/logout', {
-      credentials: 'include',
-    });
+    await fetch('http://localhost:5000/api/logout', { credentials: 'include' });
     navigate('/');
   };
 
-  // Zmiana statusu ukończenia zadania
+  // === ZMIANA STATUSU ZADANIA ===
   const handleToggle = async (task) => {
     const updatedTask = { ...task, done: !task.done };
 
@@ -62,16 +61,13 @@ const DashboardPage = () => {
       body: JSON.stringify(updatedTask),
     });
 
-    if (!task.done) {
-      toast.success('Zadanie oznaczone jako ukończone');
-    } else {
-      toast.info('Zadanie oznaczone jako nieukończone');
-    }
-
-    loadTasks(); // odświeżenie listy
+    toast[!task.done ? 'success' : 'info'](
+      `Zadanie oznaczone jako ${!task.done ? 'ukończone' : 'nieukończone'}`
+    );
+    loadTasks();
   };
 
-  // Usuwanie zadania
+  // === USUWANIE ZADANIA ===
   const handleDelete = async (taskId) => {
     await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
       method: 'DELETE',
@@ -81,20 +77,17 @@ const DashboardPage = () => {
     toast.error('Zadanie zostało usunięte');
   };
 
-  const [searchTerm, setSearchTerm] = useState('');
-
-  // Filtrowanie zadań wg statusu i wyszukiwania
+  // === FILTROWANIE I SORTOWANIE ===
   const filteredTasks = tasks
-    .filter((task) => {
-      if (filter === 'completed') return task.done;
-      if (filter === 'incomplete') return !task.done;
-      return true;
-    })
-    .filter((task) =>
+    .filter(task =>
+      filter === 'completed' ? task.done :
+      filter === 'incomplete' ? !task.done :
+      true
+    )
+    .filter(task =>
       task.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-  // Sortowanie zadań
   const sortedTasks = [...filteredTasks].sort((a, b) => {
     if (sort === 'date') {
       return new Date(a.due_date || Infinity) - new Date(b.due_date || Infinity);
@@ -105,29 +98,34 @@ const DashboardPage = () => {
     return 0;
   });
 
-  // Klasa CSS zależna od kategorii zadania
+  // === KOLOROWE KROPKI WEDŁUG KATEGORII ===
   const getCategoryClass = (category) => {
     switch (category) {
       case 'Dom': return 'dom';
       case 'Praca': return 'praca';
-      case 'Szkoła': return 'szkola'; // poprawna kategoria
+      case 'Szkoła': return 'szkola';
       default: return '';
     }
   };
 
+  // === RENDER ===
   return (
     <div className="dashboard">
-      {/* Nagłówek strony */}
+      {/* GÓRNY PANEL */}
       <div className="dashboard-header">
         <div className="header-buttons">
           <button className="settings-button" onClick={() => navigate('/settings')}>
             <FaCog /> Ustawienia
           </button>
-          <button className="logout-button" onClick={logout}><IoMdLogOut /> Wyloguj</button>
+          <button className="logout-button" onClick={logout}>
+            <IoMdLogOut /> Wyloguj
+          </button>
         </div>
       </div>
 
+      {/* GŁÓWNA ZAWARTOŚĆ */}
       <div className="content-wrapper">
+        {/* LEWA KOLUMNA – ZADANIA */}
         <div className="main-panel">
           <h2>Witaj, {username}!</h2>
 
@@ -137,7 +135,7 @@ const DashboardPage = () => {
             </button>
           </div>
 
-          {/* Filtry i sortowanie */}
+          {/* FILTRY */}
           <div className="filters">
             <label>Filtruj:</label>
             <select value={filter} onChange={(e) => setFilter(e.target.value)}>
@@ -161,7 +159,7 @@ const DashboardPage = () => {
             />
           </div>
 
-          {/* Lista zadań */}
+          {/* LISTA ZADAŃ */}
           <h3>Twoje zadania:</h3>
           {sortedTasks.length === 0 ? (
             <p>Brak zadań</p>
@@ -194,6 +192,7 @@ const DashboardPage = () => {
                     {task.category && <small> • Kategoria: {task.category}</small>}
                   </div>
 
+                  {/* AKCJE PO ZAZNACZENIU */}
                   {selectedTask === task.id && (
                     <div className="task-actions">
                       {task.done ? (
@@ -227,7 +226,7 @@ const DashboardPage = () => {
           )}
         </div>
 
-        {/* Kolumna z kalendarzem i legendą */}
+        {/* PRAWA KOLUMNA – KALENDARZ */}
         <div className="calendar-column">
           <h3>Kalendarz zadań</h3>
           <TaskCalendar tasks={tasks} />

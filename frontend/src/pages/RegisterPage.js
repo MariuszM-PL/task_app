@@ -1,44 +1,41 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Hook do nawigacji między stronami
-import './RegisterPage.css'; // Import arkusza stylów
-import { toast } from 'react-toastify'; // Import powiadomień typu toast
-import { FaUser, FaLock } from 'react-icons/fa'; // Ikonki FontAwesome
+import { useNavigate } from 'react-router-dom'; // Do przekierowań między stronami
+import './RegisterPage.css'; // Style dla tej strony
+import { toast } from 'react-toastify'; // Powiadomienia toast
+import { FaUser, FaLock } from 'react-icons/fa'; // Ikony pól formularza
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({ username: '', password: '' }); // Stan formularza rejestracji
-  const [error, setError] = useState(''); // Stan błędu
-  const navigate = useNavigate(); // Hook do przekierowań
+  // Stan przechowujący dane formularza i ewentualny błąd
+  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  // Obsługa zmiany pól formularza
+  // Obsługa zmian w inputach
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // Obsługa wysłania formularza
+  // Wysłanie formularza rejestracji
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Wysłanie danych do backendu
     const response = await fetch('http://localhost:5000/api/register', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
     });
 
     const data = await response.json();
 
-    // Obsługa odpowiedzi z backendu
     if (data.success) {
-      toast.success('Rejestracja zakończona sukcesem!'); // Powiadomienie
-      navigate('/login'); // Przejście do logowania
+      toast.success('Rejestracja zakończona sukcesem!');
+      navigate('/login');
     } else {
-      setError(data.message || 'Wystąpił błąd.'); // Wyświetlenie błędu
+      setError(data.message || 'Wystąpił błąd rejestracji.');
     }
   };
 
-  // Efekt "ripple" przy kliknięciu
+  // Efekt kliknięcia przycisku (ripple)
   const handleRipple = (e) => {
     const button = e.currentTarget;
     const ripple = document.createElement("span");
@@ -49,14 +46,16 @@ const RegisterPage = () => {
     ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
     ripple.className = "ripple";
     button.appendChild(ripple);
-  
-    setTimeout(() => ripple.remove(), 600); // Usunięcie efektu po animacji
+
+    setTimeout(() => ripple.remove(), 600);
   };
 
   return (
     <div className="register-container">
       <div className="register-box">
         <h2>Rejestracja</h2>
+
+        {/* Formularz rejestracyjny */}
         <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
             <FaUser className="input-icon" />
@@ -82,16 +81,16 @@ const RegisterPage = () => {
             />
           </div>
 
-          {/* Wyświetlenie błędu jeśli istnieje */}
+          {/* Komunikat błędu jeśli wystąpi */}
           {error && <p className="error">{error}</p>}
 
-          {/* Przycisk rejestracji z efektem ripple */}
+          {/* Przycisk z animacją ripple */}
           <button type="submit" className="ripple-button" onClick={handleRipple}>
             Zarejestruj się
           </button>
         </form>
 
-        {/* Przejście do logowania */}
+        {/* Przekierowanie do logowania */}
         <p>
           Masz już konto?{' '}
           <span className="link" onClick={() => navigate('/login')}>

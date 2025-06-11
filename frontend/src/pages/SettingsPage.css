@@ -1,18 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 /* === GŁÓWNE TŁO STRONY === */
 .settings-container {
   min-height: 100vh;
-  background: linear-gradient(to right, #4facfe, #a1def2);
-  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #4facfe, #a1def2); /* tło gradientowe */
+  font-family: "Roboto", sans-serif;
   padding: 2rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #333;
   box-sizing: border-box;
 }
 
-/* === PANELE === */
+/* === KONTENER NA FORMULARZ === */
 .settings-box {
   background-color: white;
   padding: 2rem;
@@ -33,7 +33,7 @@
   text-align: center;
 }
 
-/* === FORMULARZ ZMIANY HASŁA === */
+/* === FORMULARZ === */
 .settings-form {
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@
   background-color: #45a045;
 }
 
-/* === PRZYCISK POWROTU === */
+/* === PRZYCISK POWROTU DO PANELU === */
 .back-button {
   margin-top: 1.5rem;
   padding: 0.5rem 1rem;

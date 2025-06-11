@@ -1,4 +1,4 @@
-/* === GŁÓWNY KONTENER STRONY REJESTRACJI === */
+/* === GŁÓWNY KONTENER STRONY === */
 .register-container {
   position: relative;
   width: 100vw;
@@ -11,7 +11,7 @@
   overflow: hidden;
 }
 
-/* === DEKORACYJNE OKRĘGI TŁA === */
+/* === DEKORACYJNE OKRĘGI W TLE === */
 .register-container::before,
 .register-container::after {
   content: '';
@@ -37,7 +37,7 @@
   opacity: 0.25;
 }
 
-/* === BOX REJESTRACJI === */
+/* === GŁÓWNE OKNO FORMULARZA === */
 .register-box {
   position: relative;
   z-index: 1;
@@ -72,12 +72,12 @@
   color: #aaa;
 }
 
-/* === PRZYCISK REJESTRACJI === */
+/* === PRZYCISK ZAREJESTRUJ SIĘ === */
 .register-box button {
   width: 100%;
   padding: 12px;
   margin: 40px 0;
-  background: linear-gradient(to right, #43ce5c, #7ce08e); /* gradient zielony */
+  background: linear-gradient(to right, #43ce5c, #7ce08e); /* zielony gradient */
   color: white;
   border: none;
   border-radius: 6px;
@@ -90,7 +90,7 @@
   opacity: 0.95;
 }
 
-/* === BŁĘDY / LINKI === */
+/* === BŁĘDY I LINKI === */
 .register-box .error {
   color: red;
   margin-bottom: 10px;
@@ -109,7 +109,7 @@
   cursor: pointer;
 }
 
-/* === INPUT Z IKONĄ === */
+/* === IKONY W POLACH FORMULARZA === */
 .input-wrapper {
   position: relative;
   display: flex;
@@ -118,13 +118,7 @@
 }
 
 .input-wrapper input {
-  width: 100%;
-  padding: 12px 12px 12px 40px; /* padding z lewej na ikonkę */
-  border: none;
-  border-bottom: 2px solid #ccc;
-  font-size: 1rem;
-  background: transparent;
-  outline: none;
+  padding: 12px 12px 12px 40px; /* miejsce na ikonkę */
 }
 
 .input-icon {
@@ -136,7 +130,7 @@
   font-size: 1rem;
 }
 
-/* === EFEKT RIPPLE === */
+/* === EFEKT KLIKNIĘCIA (RIPPLE) === */
 .ripple-button {
   position: relative;
   overflow: hidden;
@@ -159,7 +153,7 @@
   }
 }
 
-/* === RESPONSYWNOŚĆ – zmniejszone paddingi na niskiej wysokości ekranu === */
+/* === RESPONSYWNOŚĆ DLA NISKICH WYSOKOŚCI === */
 @media (max-height: 700px) {
   .register-box {
     padding: 1.5rem;

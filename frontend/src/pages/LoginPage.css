@@ -1,9 +1,9 @@
-/* === GŁÓWNY KONTENER STRONY LOGOWANIA === */
+/* === KONTEKST CAŁEJ STRONY === */
 .login-container {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(to right, #4facfe, #a1def2); /* gradient tła */
+  background: linear-gradient(to right, #4facfe, #a1def2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +11,7 @@
   overflow: hidden;
 }
 
-/* === DEKORACYJNE OKRĘGI TŁA === */
+/* === TŁO: ozdobne okręgi === */
 .login-container::before,
 .login-container::after {
   content: '';
@@ -37,7 +37,7 @@
   opacity: 0.25;
 }
 
-/* === BOX LOGOWANIA === */
+/* === BOX Z LOGOWANIEM === */
 .login-box {
   position: relative;
   z-index: 1;
@@ -47,7 +47,6 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 360px;
-  height: auto;
   text-align: center;
 }
 
@@ -57,11 +56,17 @@
   color: #5a6364;
 }
 
-/* === POLA FORMULARZA === */
-.login-box input {
-  width: 100%;
-  padding: 12px;
+/* === FORMULARZ: wejścia === */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
   margin-bottom: 1rem;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
   font-size: 1rem;
   background: transparent;
   border: none;
@@ -69,11 +74,16 @@
   outline: none;
 }
 
-.login-box input::placeholder {
+.input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #aaa;
+  font-size: 1.1rem;
 }
 
-/* === PRZYCISK ZALOGUJ === */
+/* === PRZYCISK ZALOGUJ SIĘ === */
 .login-box button {
   width: 100%;
   padding: 12px;
@@ -91,54 +101,7 @@
   opacity: 0.95;
 }
 
-/* === KOMUNIKAT BŁĘDU === */
-.login-box .error {
-  color: red;
-  margin-bottom: 10px;
-}
-
-/* === LINKI I TEKST POMOCNICZY === */
-.login-box p {
-  color: #5a6364;
-}
-
-.login-box .link {
-  margin-top: 1rem;
-  display: block;
-  font-size: 0.9rem;
-  color: #007bff;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-/* === INPUT Z IKONKĄ === */
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.input-wrapper input {
-  width: 100%;
-  padding: 12px 12px 12px 40px; /* miejsce na ikonkę z lewej */
-  font-size: 1rem;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid #ccc;
-  outline: none;
-}
-
-.input-icon {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #aaa;
-  font-size: 1.1rem;
-}
-
-/* === EFEKT RIPPLE === */
+/* === EFEKT KLIKNIĘCIA === */
 .ripple-button {
   position: relative;
   overflow: hidden;
@@ -161,7 +124,24 @@
   }
 }
 
-/* === RESPONSYWNOŚĆ – dopasowanie dla niższych ekranów === */
+/* === BŁĘDY I KOMUNIKATY === */
+.login-box .error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.login-box p {
+  color: #5a6364;
+}
+
+.login-box .link {
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* === RESPONSYWNOŚĆ === */
 @media (max-height: 700px) {
   .login-box {
     padding: 1.5rem;
