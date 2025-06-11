@@ -260,5 +260,5 @@ def change_password():
 # URUCHOMIENIE SERWERA
 # ========================================
 if __name__ == '__main__':
-    # init_db()  # 🔴 NIE wywołujemy tej funkcji automatycznie – baza pozostaje nienaruszona
+    init_db()  # 🔴 NIE wywołujemy tej funkcji automatycznie – baza pozostaje nienaruszona
     app.run(debug=True)    # Tryb debugowania – przydatny w developmentcie
