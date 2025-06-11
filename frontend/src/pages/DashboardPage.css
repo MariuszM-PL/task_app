@@ -7,6 +7,7 @@
   font-family: "Roboto", sans-serif;
   padding: 2rem;
   box-sizing: border-box;
+  min-height: 100vh;
 }
 
 /* === GÓRNY PANEL – przyciski ustawień i wylogowania === */
